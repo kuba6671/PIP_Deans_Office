@@ -12,6 +12,7 @@ public class StudentView extends GUI implements ActionListener {
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
         frame.setSize(400, 200);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
 
@@ -66,8 +67,10 @@ public class StudentView extends GUI implements ActionListener {
 
         button4.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+            public void actionPerformed(ActionEvent e)
+            {
+                ProposalView proposal = new ProposalView();
+
             }
         });
 

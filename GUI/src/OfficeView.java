@@ -12,6 +12,7 @@ public class OfficeView extends GUI{
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
         frame.setSize(400, 200);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
 
