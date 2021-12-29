@@ -47,7 +47,7 @@ public class StudentView extends GUI implements ActionListener {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                MarkView mark = new MarkView();
             }
         });
 
@@ -61,8 +61,7 @@ public class StudentView extends GUI implements ActionListener {
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
+                ExamView exam = new ExamView();            }
         });
 
         button4.addActionListener(new ActionListener() {

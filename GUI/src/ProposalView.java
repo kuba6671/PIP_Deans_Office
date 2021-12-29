@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
@@ -43,8 +44,6 @@ public class ProposalView extends JFrame implements ActionListener {
         ProposalForm.setVisible(true);
         incomePanel.setVisible(true);
         proposal.setVisible(true);
-
-
     }
 
 
