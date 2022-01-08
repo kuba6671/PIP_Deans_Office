@@ -13,13 +13,15 @@ public class GUI extends JFrame implements ActionListener {
     protected static JButton button;
     protected static JLabel success;
 
+
     public static void main(String[] args) {
-        MainWindow main = new MainWindow();
-        main.openWindow();
+        MainWindow mainwind = new MainWindow();
+        mainwind.openWindow();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        JFrame mainwind = this;
         TeacherView teacher = new TeacherView();
         StudentView student = new StudentView();
         OfficeView office = new OfficeView();
@@ -28,8 +30,8 @@ public class GUI extends JFrame implements ActionListener {
         System.out.println(user + ", " + password);
 
         if(user.equals("jakub")&&password.equals("celuch")){
-            success.setText("Login succesful!");
-            teacher.openWindow(user,password);
+            //success.setText("Login succesful!");
+            //teacher.openWindow(user,password);
         }
 
         else if(user.equals("tomasz")&&password.equals("chuma")){

@@ -40,7 +40,7 @@ public class OfficeView extends GUI{
         button3.setBounds(40, 110, 150, 25);
         panel.add(button3);
 
-        button4 = new JButton("Przydział zadań");
+        button4 = new JButton("Zarejestruj studenta");
         button4.setBounds(210, 110, 150, 25);
         panel.add(button4);
 
@@ -60,15 +60,17 @@ public class OfficeView extends GUI{
 
         button3.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+            public void actionPerformed(ActionEvent e)
+            {
+                StudentsList list = new StudentsList();
             }
         });
 
         button4.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+            public void actionPerformed(ActionEvent e)
+            {
+                RegistrationView registration = new RegistrationView();
             }
         });
 
