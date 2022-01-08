@@ -62,7 +62,7 @@ public class OfficeView extends GUI{
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                StudentsList list = new StudentsList();
+                StudentsList studentsList = new StudentsList();
             }
         });
 

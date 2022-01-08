@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="StudentsList">
+  <grid id="27dc6" binding="StudentPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="64" y="33" width="396" height="339"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="f575e" class="javax.swing.JComboBox" binding="GroupChoose">
+        <constraints border-constraint="North"/>
+        <properties/>
+      </component>
+      <scrollpane id="39b18" binding="ScrollStudent">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="8e3d4" class="javax.swing.JTable" binding="studentTable" custom-create="true">
+            <constraints/>
+            <properties/>
+          </component>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+</form>
