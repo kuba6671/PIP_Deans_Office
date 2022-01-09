@@ -7,20 +7,15 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="f575e" class="javax.swing.JComboBox" binding="GroupChoose">
+      <component id="1996" class="javax.swing.JComboBox" binding="GroupChoose">
         <constraints border-constraint="North"/>
         <properties/>
       </component>
-      <scrollpane id="39b18" binding="ScrollStudent">
+      <scrollpane id="d73f9" binding="ScrollStudent">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
-        <children>
-          <component id="8e3d4" class="javax.swing.JTable" binding="studentTable" custom-create="true">
-            <constraints/>
-            <properties/>
-          </component>
-        </children>
+        <children/>
       </scrollpane>
     </children>
   </grid>
