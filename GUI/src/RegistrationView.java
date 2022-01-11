@@ -69,7 +69,7 @@ public class RegistrationView extends GUI {
 
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","system","system123");
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","system");
             Statement stmt = con.createStatement();
             System.out.println("Connection is created successfully:");
 

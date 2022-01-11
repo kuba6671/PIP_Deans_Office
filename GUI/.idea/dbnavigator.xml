@@ -24,23 +24,25 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="a2681f79-afb0-4304-a103-14b2fffb9638">
+        <schema name="PUBLIC" object-types="table, view, materialized view, synonym" />
+        <schema name="SYSTEM" object-types="table, view, materialized view, synonym" />
+      </connection>
+    </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="17e85b28-c25b-43d2-8bf9-f1575c010ba9">
-      <console name="Connection" type="STANDARD" schema="SYSTEM" session="Main"><![CDATA[select * from studenci;]]></console>
+    <connection id="a2681f79-afb0-4304-a103-14b2fffb9638">
+      <console name="system" type="STANDARD" schema="SYSTEM" session="Main"><![CDATA[select * from oceny;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="17e85b28-c25b-43d2-8bf9-f1575c010ba9" object-ref="consoles/Connection" />
+      <object connection-id="a2681f79-afb0-4304-a103-14b2fffb9638" object-ref="consoles/system" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="17e85b28-c25b-43d2-8bf9-f1575c010ba9" />
-  </component>
-  <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="17e85b28-c25b-43d2-8bf9-f1575c010ba9" dataset="SYSTEM.STUDENCI" active-filter-id="" />
+    <connection id="a2681f79-afb0-4304-a103-14b2fffb9638" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -67,27 +69,29 @@
     <diagnostics-history />
   </component>
   <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
-    <recently-used-interfaces />
+    <recently-used-interfaces>
+      <mapping database-type="ORACLE" interface-id="DEFAULT" />
+    </recently-used-interfaces>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="17e85b28-c25b-43d2-8bf9-f1575c010ba9" active="true">
+      <connection id="a2681f79-afb0-4304-a103-14b2fffb9638" active="true">
         <database>
-          <name value="Connection" />
-          <description value="conn" />
+          <name value="system" />
+          <description value="system" />
           <database-type value="ORACLE" />
           <config-type value="BASIC" />
-          <database-version value="19.0" />
+          <database-version value="11.2" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
           <url-type value="SID" />
           <host value="localhost" />
           <port value="1521" />
-          <database value="orcl" />
+          <database value="XE" />
           <type value="USER_PASSWORD" />
           <user value="system" />
-          <deprecated-pwd value="c3lzdGVtMTIz" />
+          <deprecated-pwd value="c3lzdGVt" />
         </database>
         <properties>
           <auto-commit value="false" />

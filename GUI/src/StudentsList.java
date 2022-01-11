@@ -36,8 +36,9 @@ public class StudentsList extends JFrame {
         studentTable = new JTable(model);
 
 
+
         groupCombo();
-        makeTable();
+        //makeTable();
 
         //examTable.setDefaultEditor(Object.class, null);
 
@@ -61,7 +62,7 @@ public class StudentsList extends JFrame {
     private void groupCombo(){
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "system", "system123");
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
             Statement stmt = con.createStatement();
             System.out.println("Connection is created successfully:");
             ResultSet rs = stmt.executeQuery("select distinct groupid from studenci order by groupid asc");
@@ -76,38 +77,16 @@ public class StudentsList extends JFrame {
         }
     }
 
-    
-
-    private void makeTable(){
-        try {
-
-
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "system", "system123");
-            Statement stmt = con.createStatement();
-            System.out.println("Connection is created successfully:");
-            ResultSet rs = stmt.executeQuery("select * from studenci");
-            while (rs.next()) {
-                Object[] row = {rs.getInt("studentid"), rs.getString("lastname"), rs.getString("firstname"), rs.getInt("phonenumber"), rs.getString("mail"), rs.getInt("groupid")};
-                model.addRow(row);
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
 
     private void groupSort(String group) {
         try {
 
 
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "system", "system123");
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
             Statement stmt = con.createStatement();
             System.out.println("Connection is created successfully:");
             ResultSet rs = stmt.executeQuery("select * from studenci where groupid = " + group);
-            System.out.println("Wywołano z " + group);
             while (rs.next()) {
                 Object[] row = {rs.getInt("studentid"), rs.getString("lastname"), rs.getString("firstname"), rs.getInt("phonenumber"), rs.getString("mail"), rs.getInt("groupid")};
                 model.addRow(row);

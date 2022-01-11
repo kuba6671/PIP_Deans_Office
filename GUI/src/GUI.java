@@ -14,6 +14,7 @@ public class GUI extends JFrame implements ActionListener {
     protected static JLabel success;
 
 
+
     public static void main(String[] args) {
         MainWindow mainwind = new MainWindow();
         mainwind.openWindow();
@@ -29,9 +30,9 @@ public class GUI extends JFrame implements ActionListener {
         String password = passwordText.getText();
         System.out.println(user + ", " + password);
 
-        if(user.equals("jakub")&&password.equals("celuch")){
-            //success.setText("Login succesful!");
-            //teacher.openWindow(user,password);
+        if(user.equals("")&&password.equals("")){
+            success.setText("Login succesful!");
+            teacher.openWindow(user,password);
         }
 
         else if(user.equals("tomasz")&&password.equals("chuma")){

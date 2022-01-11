@@ -48,7 +48,7 @@ public class TeacherView extends MainWindow{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                AddMark addMark = new AddMark();
             }
         });
 
