@@ -1,14 +1,7 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.*;
-import java.util.Properties;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RegistrationView extends GUI {
     private JPanel RegistrationPanel;
@@ -25,6 +18,8 @@ public class RegistrationView extends GUI {
 
     private JLabel nazwiskoLabel;
     private JButton close;
+    private JTextField ageText;
+    private JTextField fieldOfStudyText;
 
     Connection conn = null;
     Statement stmt = null;
@@ -66,14 +61,42 @@ public class RegistrationView extends GUI {
         String phone = phoneText.getText();
         String mail = mailText.getText();
         String group = groupText.getText();
+        String age = ageText.getText();
+        String fieldOfStudy = fieldOfStudyText.getText();
 
         try {
+            int count;
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","system","system");
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","c##test","test");
             Statement stmt = con.createStatement();
             System.out.println("Connection is created successfully:");
 
-            int count = stmt.executeUpdate("insert into studenci values('"+id+"','"+surname+"','"+name+"','"+phone+"','"+mail+"','"+group+"')");
+            int groupID=0;
+            String groupName = null;
+
+            ResultSet rs = stmt.executeQuery("select * from StudentGroup where name = " + group);
+            if(!rs.next()){
+                count = stmt.executeUpdate("insert into StudentGroup values(group_seq.NEXTVAL,'"+group+"')");
+                if(count>0)
+                    System.out.println("records inserted succesfully");
+                else
+                    System.out.println("records insertion failed");
+                rs = stmt.executeQuery("select * from StudentGroup where name = " + group);
+                while(rs.next()) {
+                    groupID = rs.getInt("groupID");
+                    groupName = rs.getString("name");
+                }
+            }else {
+                groupID = rs.getInt("groupID");
+                groupName = rs.getString("name");
+            }
+
+            Group group1 = new Group(groupID,groupName);
+            Student student = new Student(Integer.parseInt(id),name,surname,Integer.parseInt(age),phone,mail,group1.getGroupID(),fieldOfStudy);
+
+            count = stmt.executeUpdate("insert into Student values("+student.getIndexNumber()+",'"+student.getName()+"','"
+                    +student.getSurname()+ "',"+student.getAge()+",'"
+                    +student.getPhoneNumber()+"','" +student.getMail()+"','"+student.fieldOfStudy+"',"+group1.getGroupID()+")");
             if(count>0)
                 System.out.println("records inserted succesfully");
             else
@@ -105,7 +128,8 @@ public class RegistrationView extends GUI {
         phoneText.setText("");
         mailText.setText("");
         groupText.setText("");
+        ageText.setText("");
+        fieldOfStudyText.setText("");
     }
-
 }
 

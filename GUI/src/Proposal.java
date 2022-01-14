@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 
 public class Proposal {
-    String proposalName, name, surname, fieldOfStudy, id;
+    String proposalName, name, surname, subject, id;
     LocalDate date;
     int session, income;
     Double avg;
@@ -11,7 +11,7 @@ public class Proposal {
         this.proposalName = proposalName;
         this.name = name;
         this.surname = surname;
-        this.fieldOfStudy = fieldOfStudy;
+        this.subject = fieldOfStudy;
         this.id = id;
         this.date = date;
         this.session = session;
@@ -23,7 +23,7 @@ public class Proposal {
         this.proposalName = proposalName;
         this.name = name;
         this.surname = surname;
-        this.fieldOfStudy = fieldOfStudy;
+        this.subject = fieldOfStudy;
         this.id = id;
         this.date = date;
         this.session = session;
@@ -43,7 +43,7 @@ public class Proposal {
     }
 
     public String getfieldOfStudy() {
-        return fieldOfStudy;
+        return subject;
     }
 
     public String getId() {

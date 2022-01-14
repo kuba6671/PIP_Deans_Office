@@ -1,6 +1,6 @@
 CREATE TABLE exam (
     examid     INTEGER NOT NULL,
-    "date"     DATE,
+    data     DATE,
     groupid    INTEGER NOT NULL,
     teacherid  INTEGER NOT NULL,
     subjectid  INTEGER NOT NULL
@@ -8,17 +8,17 @@ CREATE TABLE exam (
 
 ALTER TABLE exam ADD CONSTRAINT exam_pk PRIMARY KEY ( examid );
 
-CREATE TABLE "Group" (
+CREATE TABLE StudentGroup (
     groupid  INTEGER NOT NULL,
     name     CHAR(40 CHAR)
 );
 
-ALTER TABLE "Group" ADD CONSTRAINT group_pk PRIMARY KEY ( groupid );
+ALTER TABLE StudentGroup ADD CONSTRAINT group_pk PRIMARY KEY ( groupid );
 
 CREATE TABLE lesson (
     lessonid     INTEGER NOT NULL,
     name         CHAR(40 CHAR),
-    "date"       DATE,
+    data       DATE,
     timetableid  INTEGER NOT NULL
 );
 
@@ -39,7 +39,7 @@ CREATE TABLE officeemployee (
     name              CHAR(30 CHAR),
     surname           CHAR(30 CHAR),
     age               INTEGER,
-    phonenumber       CHAR(10 CHAR),
+    phonenumber       CHAR(30 CHAR),
     mail              CHAR(30 CHAR)
 );
 
@@ -48,7 +48,7 @@ ALTER TABLE officeemployee ADD CONSTRAINT officeemployee_pk PRIMARY KEY ( office
 CREATE TABLE proposal (
     proposalid    INTEGER NOT NULL,
     proposalname  CHAR(40 CHAR),
-    "date"        DATE,
+    data        DATE,
     "session"     INTEGER,
     income        INTEGER,
     avg           FLOAT(4),
@@ -62,7 +62,7 @@ CREATE TABLE student (
     name          CHAR(30 CHAR),
     surname       CHAR(30 CHAR),
     age           INTEGER,
-    phonenumber   CHAR(10 CHAR),
+    phonenumber   CHAR(30 CHAR),
     mail          CHAR(30 CHAR),
     fieldofstudy  CHAR(40 CHAR),
     groupid       INTEGER NOT NULL
@@ -82,7 +82,7 @@ CREATE TABLE teacher (
     name         CHAR(30 CHAR),
     surname      CHAR(30 CHAR),
     age          INTEGER,
-    phonenumber  CHAR(10 CHAR),
+    phonenumber  CHAR(30 CHAR),
     mail         CHAR(30 CHAR)
 );
 
@@ -102,7 +102,7 @@ ALTER TABLE timetable ADD CONSTRAINT timetable_pk PRIMARY KEY ( timetableid );
 
 ALTER TABLE exam
     ADD CONSTRAINT exam_group_fk FOREIGN KEY ( groupid )
-        REFERENCES "Group" ( groupid );
+        REFERENCES StudentGroup ( groupid );
 
 ALTER TABLE exam
     ADD CONSTRAINT exam_subject_fk FOREIGN KEY ( subjectid )
@@ -134,8 +134,11 @@ ALTER TABLE proposal
 
 ALTER TABLE student
     ADD CONSTRAINT student_group_fk FOREIGN KEY ( groupid )
-        REFERENCES "Group" ( groupid );
+        REFERENCES StudentGroup ( groupid );
 
 ALTER TABLE timetable
     ADD CONSTRAINT timetable_group_fk FOREIGN KEY ( groupid )
-        REFERENCES "Group" ( groupid );
+        REFERENCES StudentGroup ( groupid );
+		
+		
+CREATE SEQUENCE group_seq START WITH 1 INCREMENT BY 1;

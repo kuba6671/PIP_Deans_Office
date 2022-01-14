@@ -5,6 +5,16 @@ protected
     int age;
     String phoneNumber;
     String mail;
+    String password;
+
+    public Person(String name, String surname, int age, String phoneNumber, String mail, String password) {
+        setName(name);
+        setSurname(surname);
+        setAge(age);
+        setPhoneNumber(phoneNumber);
+        setMail(mail);
+        setPassword(password);
+    }
 
     public Person(String name, String surname, int age, String phoneNumber, String mail) {
         setName(name);
@@ -52,5 +62,9 @@ protected
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
