@@ -24,6 +24,10 @@ protected
         setMail(mail);
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public String getName() {
         return name;
     }

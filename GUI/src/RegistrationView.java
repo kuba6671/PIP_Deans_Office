@@ -20,6 +20,7 @@ public class RegistrationView extends GUI {
     private JButton close;
     private JTextField ageText;
     private JTextField fieldOfStudyText;
+    private JTextField passwordText;
 
     Connection conn = null;
     Statement stmt = null;
@@ -27,7 +28,7 @@ public class RegistrationView extends GUI {
 
     public RegistrationView() {
         JFrame registration = this;
-        registration.setSize(400, 400);
+        registration.setSize(400, 450);
         registration.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(RegistrationPanel);
@@ -63,6 +64,7 @@ public class RegistrationView extends GUI {
         String group = groupText.getText();
         String age = ageText.getText();
         String fieldOfStudy = fieldOfStudyText.getText();
+        String password = passwordText.getText();
 
         try {
             int count;
@@ -92,10 +94,10 @@ public class RegistrationView extends GUI {
             }
 
             Group group1 = new Group(groupID,groupName);
-            Student student = new Student(Integer.parseInt(id),name,surname,Integer.parseInt(age),phone,mail,group1.getGroupID(),fieldOfStudy);
+            Student student = new Student(Integer.parseInt(id),password,name,surname,Integer.parseInt(age),phone,mail,group1.getGroupID(),fieldOfStudy);
 
-            count = stmt.executeUpdate("insert into Student values("+student.getIndexNumber()+",'"+student.getName()+"','"
-                    +student.getSurname()+ "',"+student.getAge()+",'"
+            count = stmt.executeUpdate("insert into Student values("+student.getIndexNumber()+",'"+student.getPassword()+"','"
+                    +student.getName()+"','" +student.getSurname()+ "',"+student.getAge()+",'"
                     +student.getPhoneNumber()+"','" +student.getMail()+"','"+student.fieldOfStudy+"',"+group1.getGroupID()+")");
             if(count>0)
                 System.out.println("records inserted succesfully");
@@ -130,6 +132,7 @@ public class RegistrationView extends GUI {
         groupText.setText("");
         ageText.setText("");
         fieldOfStudyText.setText("");
+        passwordText.setText("");
     }
 }
 

@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class StudentView extends GUI implements ActionListener {
 
@@ -8,7 +9,7 @@ public class StudentView extends GUI implements ActionListener {
     JButton button3 = new JButton();
     JButton button4 = new JButton();
 
-    public void openWindow(String user, String password){
+    public void openWindow(String user, String name, String surname,Connection con,Statement stmt){
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
         frame.setSize(400, 200);
@@ -16,7 +17,7 @@ public class StudentView extends GUI implements ActionListener {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
 
-        String s = user + " " + password;
+        String s = user + " " + name +" "+ surname;
 
         panel.setLayout(null);
 
@@ -61,7 +62,17 @@ public class StudentView extends GUI implements ActionListener {
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ExamView exam = new ExamView();            }
+                int groupID=0;
+                try {
+                    ResultSet studentGroup = stmt.executeQuery("select * from Student where indexNumber ='"+user+"'");
+                    if(studentGroup.next()){
+                        groupID = studentGroup.getInt("groupID");
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                ExamView exam = new ExamView(groupID,con,stmt);
+            }
         });
 
         button4.addActionListener(new ActionListener() {

@@ -8,7 +8,7 @@ public class OfficeView extends GUI{
     JButton button4 = new JButton();
 
 
-    public void openWindow(String user, String password){
+    public void openWindow(String user, String name, String surname){
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
         frame.setSize(400, 200);
@@ -16,7 +16,7 @@ public class OfficeView extends GUI{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
 
-        String s = user + " " + password;
+        String s = user + " " + name+" "+surname;
 
         panel.setLayout(null);
 
