@@ -90,7 +90,7 @@
                   <text value="Kierunek studiow"/>
                 </properties>
               </component>
-              <component id="f26a4" class="javax.swing.JTextField" binding="subject">
+              <component id="f26a4" class="javax.swing.JTextField" binding="fieldOfStudy">
                 <constraints/>
                 <properties>
                   <preferredSize width="181" height="30"/>

@@ -13,7 +13,7 @@ public class ProposalView extends JFrame implements ActionListener {
     private JPanel ProposalForm;
     private JTextField name;
     private JTextField surname;
-    private JTextField subject;
+    private JTextField fieldOfStudy;
     private JTextField session;
     private JTextField id;
     private JTextField date;
@@ -66,7 +66,7 @@ public class ProposalView extends JFrame implements ActionListener {
         if (e.getSource() == resetButton) {
             name.setText("");
             surname.setText("");
-            subject.setText("");
+            fieldOfStudy.setText("");
             this.session.setText("");
             id.setText("");
             this.date.setText("");
@@ -92,11 +92,11 @@ public class ProposalView extends JFrame implements ActionListener {
                 }
 
                 Proposal SocialGrantForm = new Proposal("Stypendium socjalne",name.getText(),surname.getText(),
-                        subject.getText(),id.getText(),date,session,income);
+                        fieldOfStudy.getText(),id.getText(),date,session,income);
             }
             else if(isSelected == "Stypendium naukowe"){
                 Proposal FellowShipForm = new Proposal("Stypendium naukowe",name.getText(),surname.getText(),
-                        subject.getText(),id.getText(),date,session,avg);
+                        fieldOfStudy.getText(),id.getText(),date,session,avg);
             }
         }
 

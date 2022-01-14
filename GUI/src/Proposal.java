@@ -1,17 +1,17 @@
 import java.time.LocalDate;
 
 public class Proposal {
-    String proposalName, name, surname, subject, id;
+    String proposalName, name, surname, fieldOfStudy, id;
     LocalDate date;
     int session, income;
     Double avg;
 
     public Proposal(String proposalName, String name, String surname,
-                    String subject, String id, LocalDate date, int session, int income) {
+                    String fieldOfStudy, String id, LocalDate date, int session, int income) {
         this.proposalName = proposalName;
         this.name = name;
         this.surname = surname;
-        this.subject = subject;
+        this.fieldOfStudy = fieldOfStudy;
         this.id = id;
         this.date = date;
         this.session = session;
@@ -19,11 +19,11 @@ public class Proposal {
     }
 
     public Proposal(String proposalName, String name, String surname,
-                    String subject, String id, LocalDate date, int session, Double avg) {
+                    String fieldOfStudy, String id, LocalDate date, int session, Double avg) {
         this.proposalName = proposalName;
         this.name = name;
         this.surname = surname;
-        this.subject = subject;
+        this.fieldOfStudy = fieldOfStudy;
         this.id = id;
         this.date = date;
         this.session = session;
@@ -42,8 +42,8 @@ public class Proposal {
         return surname;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getfieldOfStudy() {
+        return fieldOfStudy;
     }
 
     public String getId() {
