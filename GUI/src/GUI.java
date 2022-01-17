@@ -55,14 +55,14 @@ public class GUI extends JFrame implements ActionListener {
                 success.setText("Login succesful!");
                 name = loginTeacher.getString("name");
                 surname = loginTeacher.getString("surname");
-                teacher.openWindow(user,name,surname);
+                teacher.openWindow(user,name,surname,con, stmt);
             }
             ResultSet loginEmployee = stmt.executeQuery("select * from OfficeEmployee where OfficeEmployeeID ='"+user+"' AND password='"+password+"'");
             if(loginEmployee.next()){
                 success.setText("Login succesful!");
                 name = loginEmployee.getString("name");
                 surname = loginEmployee.getString("surname");
-                office.openWindow(user,name,surname);
+                office.openWindow(user,name,surname, con, stmt);
             }
             else{
                 success.setText("Login doesnt succesful");

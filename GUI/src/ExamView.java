@@ -17,7 +17,7 @@ public class ExamView extends JFrame {
         this.setContentPane(ExamPanel);
 
         int i=0,j=0;
-        String[][] data = new String[10][10];
+        String[][] data = new String[20][2];
         String[] columnNames = {"Przedmiot", "Data"};
         try{
             ResultSet examine = stmt.executeQuery("select subject.name, data from exam JOIN StudentGroup ON StudentGroup.groupID =exam.groupID" +

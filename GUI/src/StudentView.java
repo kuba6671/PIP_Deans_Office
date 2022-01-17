@@ -48,7 +48,7 @@ public class StudentView extends GUI implements ActionListener {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MarkView mark = new MarkView();
+                MarkView mark = new MarkView(Integer.parseInt(user), con, stmt);
             }
         });
 
@@ -79,7 +79,7 @@ public class StudentView extends GUI implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                ProposalView proposal = new ProposalView();
+                ProposalView proposal = new ProposalView(Integer.parseInt(user), con, stmt);
 
             }
         });

@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.Statement;
 
 public class TeacherView extends MainWindow{
     JButton button2 = new JButton();
@@ -8,7 +10,7 @@ public class TeacherView extends MainWindow{
     JButton button4 = new JButton();
 
 
-    public void openWindow(String user, String name, String surname){
+    public void openWindow(String user, String name, String surname, Connection con, Statement stmt){
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
         frame.setSize(400, 200);
@@ -55,7 +57,7 @@ public class TeacherView extends MainWindow{
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                addExam exam = new addExam(Integer.parseInt(user),con, stmt);
             }
         });
 

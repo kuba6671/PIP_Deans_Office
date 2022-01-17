@@ -22,17 +22,20 @@ public class RegistrationView extends GUI {
     private JTextField fieldOfStudyText;
     private JTextField passwordText;
 
-    Connection conn = null;
+    Connection con = null;
     Statement stmt = null;
     int i;
 
-    public RegistrationView() {
+    public RegistrationView(Connection con, Statement stmt) {
         JFrame registration = this;
         registration.setSize(400, 450);
         registration.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(RegistrationPanel);
         //this.pack();
+
+        this.con = con;
+        this.stmt = stmt;
 
         registration.setVisible(true);
 
@@ -53,8 +56,6 @@ public class RegistrationView extends GUI {
 
     }
 
-
-
     private void registerdb(){
         String id = idText.getText();
         String surname = surnameText.getText();
@@ -68,10 +69,6 @@ public class RegistrationView extends GUI {
 
         try {
             int count;
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","c##test","test");
-            Statement stmt = con.createStatement();
-            System.out.println("Connection is created successfully:");
 
             int groupID=0;
             String groupName = null;
@@ -112,11 +109,11 @@ public class RegistrationView extends GUI {
         } finally {
             try {
                 if (stmt != null)
-                    conn.close();
+                    con.close();
             } catch (SQLException se) {}
             try {
-                if (conn != null)
-                    conn.close();
+                if (con != null)
+                    con.close();
             } catch (SQLException se) {
                 se.printStackTrace();
             }

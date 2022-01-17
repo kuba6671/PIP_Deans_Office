@@ -19,7 +19,7 @@ ALTER TABLE lesson ADD CONSTRAINT lesson_pk PRIMARY KEY ( lessonid );
 
 CREATE TABLE mark (
     markid       INTEGER NOT NULL,
-    value        INTEGER,
+    value        FLOAT(4),
     indexnumber  INTEGER NOT NULL,
     teacherid    INTEGER NOT NULL,
     subjectid    INTEGER NOT NULL
@@ -145,3 +145,6 @@ ALTER TABLE timetable
 
 
 CREATE SEQUENCE group_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE proposal_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE subject_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE exam_seq START WITH 1 INCREMENT BY 1;

@@ -2,6 +2,9 @@ import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -24,13 +27,17 @@ public class ProposalView extends JFrame implements ActionListener {
     private JButton resetButton;
     private JPanel avgPanel;
     private JPanel incomePanel;
+    Statement stmt;
+    Connection con;
 
-    public ProposalView() {
+    public ProposalView(int indexNumber, Connection con, Statement stmt) {
         JFrame proposal = this;
         proposal.setSize(400, 400);
         proposal.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(ProposalPanel);
+        this.stmt = stmt;
+        this.con = con;
         //this.pack();
 
         ProposalChoose.addItem("Stypendium socjalne");
@@ -62,6 +69,7 @@ public class ProposalView extends JFrame implements ActionListener {
         int income=0;
         double avg= 0.0;
         LocalDate date = null;
+        int count=0;
 
         if (e.getSource() == resetButton) {
             name.setText("");
@@ -74,29 +82,64 @@ public class ProposalView extends JFrame implements ActionListener {
             this.avg.setText("");
         }
         else if(e.getSource() == sendButton){
+            if(!this.session.getText().isEmpty()) {
+                session = Integer.parseInt(this.session.getText());
+            }
+            if(!this.date.getText().isEmpty()) {
+                String dateFormString = this.date.getText();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
+                date = LocalDate.parse(dateFormString, formatter);
+            }
             if (isSelected == "Stypendium socjalne") {
-
-                if(!this.date.getText().isEmpty()) {
-                    String dateFormString = this.date.getText();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
-                    date = LocalDate.parse(dateFormString, formatter);
+                if(!this.income.getText().isEmpty()) {
+                    income = Integer.parseInt(this.income.getText());
                 }
-               if(!this.session.getText().isEmpty()) {
-                    session = Integer.parseInt(this.session.getText());
-                }
-               if(!this.income.getText().isEmpty()) {
-                   income = Integer.parseInt(this.income.getText());
-               }
-                if(!this.avg.getText().isEmpty()) {
-                     avg = Double.parseDouble(this.avg.getText());
-                }
-
                 Proposal SocialGrantForm = new Proposal("Stypendium socjalne",name.getText(),surname.getText(),
                         fieldOfStudy.getText(),id.getText(),date,session,income);
+
+                try {
+                    System.out.println("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
+                            ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+SocialGrantForm.getProposalName()+
+                            "','"+SocialGrantForm.getDate()+"','"+SocialGrantForm.getSession()+
+                            "',"+SocialGrantForm.getIncome()+","+SocialGrantForm.getId()+")");
+                    count = stmt.executeUpdate("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
+                            ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+SocialGrantForm.proposalName+
+                                    "','"+SocialGrantForm.date+"','"+SocialGrantForm.session+
+                            "',"+SocialGrantForm.income+","+SocialGrantForm.id+")");
+                    if(count>0)
+                        System.out.println("records inserted succesfully");
+                    else
+                        System.out.println("records insertion failed");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
             }
             else if(isSelected == "Stypendium naukowe"){
+                if(!this.avg.getText().isEmpty()) {
+                    avg = Double.parseDouble(this.avg.getText());
+                }
+
+
                 Proposal FellowShipForm = new Proposal("Stypendium naukowe",name.getText(),surname.getText(),
                         fieldOfStudy.getText(),id.getText(),date,session,avg);
+
+                try {
+                    System.out.println("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
+                            ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+FellowShipForm.getProposalName()+
+                            "','"+FellowShipForm.getDate()+"','"+FellowShipForm.getSession()+
+                            "',"+FellowShipForm.getIncome()+","+FellowShipForm.getId()+")");
+                    count = stmt.executeUpdate("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
+                            ", AVG, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+FellowShipForm.proposalName+
+                            "','"+FellowShipForm.date+"','"+FellowShipForm.session+
+                            "',"+FellowShipForm.avg+","+FellowShipForm.id+")");
+                    if(count>0)
+                        System.out.println("records inserted succesfully");
+                    else
+                        System.out.println("records insertion failed");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
 
