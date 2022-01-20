@@ -1,18 +1,18 @@
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Exam {
     int examID;
-    LocalDate date;
+    LocalDateTime date;
     int groupID, teacherID, subjectID;
 
-    public Exam(LocalDate date, int groupID, int teacherID, int subjectID) {
+    public Exam(LocalDateTime date, int groupID, int teacherID, int subjectID) {
         this.date = date;
         this.groupID = groupID;
         this.teacherID = teacherID;
         this.subjectID = subjectID;
     }
 
-    public Exam(int examID, LocalDate date, int groupID, int teacherID, int subjectID) {
+    public Exam(int examID, LocalDateTime date, int groupID, int teacherID, int subjectID) {
         this.examID = examID;
         this.date = date;
         this.groupID = groupID;
@@ -24,7 +24,7 @@ public class Exam {
         return examID;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 

@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +10,7 @@ public class ExamView extends JFrame {
     private JPanel ExamPanel;
     private JTable examTable;
     private JScrollPane ScrollExam;
+    private JButton closeButton;
 
     public ExamView(int groupID, Connection con, Statement stmt){
         JFrame exam = this;
@@ -20,7 +23,7 @@ public class ExamView extends JFrame {
         String[][] data = new String[20][2];
         String[] columnNames = {"Przedmiot", "Data"};
         try{
-            ResultSet examine = stmt.executeQuery("select subject.name, data from exam JOIN StudentGroup ON StudentGroup.groupID =exam.groupID" +
+            ResultSet examine = stmt.executeQuery("select subject.name, \"date\" from exam JOIN StudentGroup ON StudentGroup.groupID =exam.groupID" +
                     " JOIN subject ON exam.subjectID = subject.subjectID" +
                     " where exam.groupID ="+groupID);
             while(examine.next()){
@@ -39,6 +42,13 @@ public class ExamView extends JFrame {
         exam.add(ScrollExam);
 
         examTable.setDefaultEditor(Object.class, null);
+
+        closeButton.addActionListener((new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exam.dispose();
+            }
+        }));
 
         examTable.setVisible(true);
         exam.setVisible(true);

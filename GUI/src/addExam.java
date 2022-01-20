@@ -1,3 +1,7 @@
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.components.TimePicker;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -5,8 +9,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 
 public class addExam extends JFrame implements ActionListener {
@@ -18,12 +25,18 @@ public class addExam extends JFrame implements ActionListener {
     private JPanel buttonPanel;
     private JButton submitButton;
     private JButton exitButton;
+    private JPanel DatePanel;
+    private JPanel DateTextPanel;
+    private JLabel dateText;
+    JFrame exam;
+    DatePicker datePicker1;
+    TimePicker timePicker1;
     Statement stmt;
     Connection con;
     int teacherID;
 
     public addExam(int teacherID,Connection con, Statement stmt){
-        JFrame exam = this;
+        exam = this;
         exam.setSize(400, 300);
         exam.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,22 +49,43 @@ public class addExam extends JFrame implements ActionListener {
         submitButton.addActionListener(this);
         exitButton.addActionListener(this);
 
+
+        JPanel myDatePanel = DatePanel;
+        myDatePanel.setSize(400,40);
+
+        datePicker1 = new DatePicker();
+        datePicker1.setSize(100,30);
+        myDatePanel.add(datePicker1);
+
+        timePicker1 = new TimePicker();
+        timePicker1.setSize(80,30);
+        myDatePanel.add(timePicker1);
+
+
+
         exam.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        LocalDate date = null;
+        LocalDateTime date = null;
         String groupName;
         String subject;
+        String dateFormString = null;
         int subjectID=0;
         int count=0;
         int groupID=0;
-        if (e.getSource() == submitButton) {
-            if(!this.dateField.getText().isEmpty()) {
-                String dateFormString = this.dateField.getText();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
-                date = LocalDate.parse(dateFormString, formatter);
+        if(e.getSource()==exitButton) {
+            exam.dispose();
+        }
+        else if (e.getSource() == submitButton) {
+            System.out.println(datePicker1.getDate().toString());
+            if(!this.datePicker1.getText().isEmpty()) {
+                dateFormString = this.datePicker1.getDate().toString() +" "+ this.timePicker1.getText();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm",Locale.ENGLISH);
+                date = LocalDateTime.parse(dateFormString, formatter);
+                System.out.println("String= "+dateFormString);
+                System.out.println("Date= "+date.toString());
             }
             if(!this.groupField.getText().isEmpty()){
                 groupName = groupField.getText();
@@ -91,8 +125,9 @@ public class addExam extends JFrame implements ActionListener {
             }
             Exam exam = new Exam(date,groupID,teacherID,subjectID);
             try {
-                count = stmt.executeUpdate("insert into exam values(exam_seq.NEXTVAL,'"
-                        +exam.getDate()+"',"+exam.getGroupID()+","+exam.getTeacherID()+","+exam.getSubjectID()+")");
+                count = stmt.executeUpdate("insert into exam values(exam_seq.NEXTVAL,TO_DATE('"
+                        +dateFormString+"', 'YYYY-MM-DD HH24:MI'),"+exam.getGroupID()+","
+                        +exam.getTeacherID()+","+exam.getSubjectID()+")");
                 if(count>0)
                     System.out.println("records inserted succesfully");
                 else

@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +10,7 @@ public class MarkView extends JFrame {
     private JTable markTable;
     private JPanel MarkPanel;
     private JScrollPane ScrollMark;
+    private JButton closeButton;
 
     public MarkView(int indexNumber, Connection con, Statement stmt){
         JFrame mark = this;
@@ -40,6 +43,13 @@ public class MarkView extends JFrame {
         mark.add(ScrollMark);
 
         markTable.setDefaultEditor(Object.class, null);
+
+        closeButton.addActionListener((new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mark.dispose();
+            }
+        }));
 
         markTable.setVisible(true);
         mark.setVisible(true);
