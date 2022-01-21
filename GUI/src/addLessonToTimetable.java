@@ -15,7 +15,8 @@ public class addLessonToTimetable extends JFrame implements ActionListener {
     private TimePicker hourTimePicker;
     private JButton addButton;
     private JButton resetButton;
-    private JButton closebutton;
+    private JButton closeButton;
+    private JComboBox teacherComboBox;
     Connection con;
     Statement stmt;
 
@@ -25,18 +26,19 @@ public class addLessonToTimetable extends JFrame implements ActionListener {
         lesson.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(addLessonPanel);
+        String teacherFullName = null;
 
         this.con = con;
         this.stmt = stmt;
 
         resetButton.addActionListener(this);
         addButton.addActionListener(this);
-        closebutton.addActionListener(this);
+        closeButton.addActionListener(this);
 
-        String[] weekdays = {"Poniedzialek", "Wtorek", "Sroda", "Czwartek", "Piatek", "Sobota", "Niedziela"};
+        String[] weekdaysName = {"Poniedzialek", "Wtorek", "Sroda", "Czwartek", "Piatek", "Sobota", "Niedziela"};
 
-        for(int i=0;i<weekdays.length;i++){
-            weekdayComboBox.addItem(weekdays[i]);
+        for(int i=0;i<weekdaysName.length;i++){
+            weekdayComboBox.addItem(weekdaysName[i]);
         }
 
         try {
@@ -44,9 +46,22 @@ public class addLessonToTimetable extends JFrame implements ActionListener {
             while(groups.next()) {
                 groupComboBox.addItem(groups.getString("name"));
             }
+            ResultSet teachers = stmt.executeQuery("SELECT * from Teacher");
+            while(teachers.next()) {
+                teacherFullName = teachers.getString("name") +" "+ teachers.getString("surname");
+                teacherFullName = teacherFullName.replaceAll("\\s+"," ");
+                teacherComboBox.addItem(teacherFullName);
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+
+        closeButton.addActionListener((new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lesson.dispose();
+            }
+        }));
 
         lesson.setVisible(true);
     }
@@ -59,6 +74,7 @@ public class addLessonToTimetable extends JFrame implements ActionListener {
         int groupID=0;
         int timetableID=0;
         int weekdayID=0;
+        int teacherID=0;
         String lessonTime = null;
         int count;
         if(e.getSource()==addButton){
@@ -116,16 +132,37 @@ public class addLessonToTimetable extends JFrame implements ActionListener {
                 else{
                     timetableID = timetables.getInt("timetableID");
                 }
-                ResultSet weekdays = stmt.executeQuery("SELECT * from weekday where name='"+weekdayComboBox.getSelectedItem().toString()+"'");
-                while(weekdays.next()){
+
+                String weekdayName = weekdayComboBox.getSelectedItem().toString();
+
+                ResultSet weekdays = stmt.executeQuery("SELECT weekdayID from weekday where name='" +weekdayName+"'");
+                if(!weekdays.next()) {
+                    System.out.println("Error: Zero rows");
+                }else{
                     weekdayID = weekdays.getInt("weekdayID");
                 }
+
                 lessonTime = hourTimePicker.getText();
 
+
+                char[] myNameChars = lessonTime.toCharArray();
+                for(int i=0;i<myNameChars.length;i++){
+                    if(myNameChars[i]==':')
+                        myNameChars[i]='.';
+                }
+                String myLessonTime = String.valueOf(myNameChars);
+
+                String fullName = teacherComboBox.getSelectedItem().toString();
+                String[] splitFullName = fullName.split(" "); // split line on string separated by " "
+                ResultSet teachers = stmt.executeQuery("SELECT * from teacher where name='"
+                        +splitFullName[0]+"' AND surname='"+splitFullName[1]+"'");
+                while(teachers.next()){
+                    teacherID = teachers.getInt("teacherID");
+                }
+
                 count = stmt.executeUpdate("INSERT INTO LESSON " +
-                                "(LESSONID, LESSONTIME, TIMETABLEID, WEEKDAYID, SUBJECTID)"+
-                 "VALUES (lesson_seq.NEXTVAL, TO_DATE('2022-01-01 "+lessonTime+"', 'YYYY-MM-DD HH24:MI'),"+
-                 +timetableID+","+weekdayID+","+subjectID+")");
+                 "VALUES (lesson_seq.NEXTVAL,"+myLessonTime+","+
+                 +timetableID+","+weekdayID+","+subjectID+","+teacherID+")");
 
                 if(count>0)
                     System.out.println("records inserted succesfully");

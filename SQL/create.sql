@@ -10,10 +10,11 @@ ALTER TABLE exam ADD CONSTRAINT exam_pk PRIMARY KEY ( examid );
 
 CREATE TABLE lesson (
     lessonid     INTEGER NOT NULL,
-    lessontime   DATE,
+    lessontime   NUMBER(4, 2),
     timetableid  INTEGER NOT NULL,
     weekdayid    INTEGER NOT NULL,
-    subjectid    INTEGER NOT NULL
+    subjectid    INTEGER NOT NULL,
+    teacherid    INTEGER NOT NULL
 );
 
 ALTER TABLE lesson ADD CONSTRAINT lesson_pk PRIMARY KEY ( lessonid );
@@ -47,7 +48,8 @@ CREATE TABLE proposal (
     "session"     INTEGER,
     income        INTEGER,
     avg           FLOAT(4),
-    indexnumber   INTEGER NOT NULL
+    indexnumber   INTEGER NOT NULL,
+    decision      CHAR(40 CHAR)
 );
 
 ALTER TABLE proposal ADD CONSTRAINT proposal_pk PRIMARY KEY ( proposalid );
@@ -128,6 +130,10 @@ ALTER TABLE lesson
         REFERENCES subject ( subjectid );
 
 ALTER TABLE lesson
+    ADD CONSTRAINT lesson_teacher_fk FOREIGN KEY ( teacherid )
+        REFERENCES teacher ( teacherid );
+
+ALTER TABLE lesson
     ADD CONSTRAINT lesson_timetable_fk FOREIGN KEY ( timetableid )
         REFERENCES timetable ( timetableid );
 
@@ -161,11 +167,10 @@ ALTER TABLE timetable
 
 
 
+
 CREATE SEQUENCE group_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE proposal_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE subject_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE exam_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE timetable_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE lesson_seq START WITH 1 INCREMENT BY 1;
-
-//select to_char(lessontime,'HH24:MM') from lesson_tmp;

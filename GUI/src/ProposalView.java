@@ -106,10 +106,6 @@ public class ProposalView extends JFrame implements ActionListener {
                         fieldOfStudy.getText(),id.getText(),date,session,income);
 
                 try {
-                    System.out.println("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
-                            ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+SocialGrantForm.getProposalName()+
-                            "','"+SocialGrantForm.getDate()+"','"+SocialGrantForm.getSession()+
-                            "',"+SocialGrantForm.getIncome()+","+SocialGrantForm.getId()+")");
                     count = stmt.executeUpdate("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
                             ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+SocialGrantForm.proposalName+
                                     "','"+SocialGrantForm.date+"','"+SocialGrantForm.session+
@@ -133,10 +129,6 @@ public class ProposalView extends JFrame implements ActionListener {
                         fieldOfStudy.getText(),id.getText(),date,session,avg);
 
                 try {
-                    System.out.println("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
-                            ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+FellowShipForm.getProposalName()+
-                            "','"+FellowShipForm.getDate()+"','"+FellowShipForm.getSession()+
-                            "',"+FellowShipForm.getIncome()+","+FellowShipForm.getId()+")");
                     count = stmt.executeUpdate("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
                             ", AVG, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+FellowShipForm.proposalName+
                             "','"+FellowShipForm.date+"','"+FellowShipForm.session+

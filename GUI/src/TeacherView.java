@@ -8,18 +8,19 @@ public class TeacherView extends MainWindow{
     JButton button2 = new JButton();
     JButton button3 = new JButton();
     JButton button4 = new JButton();
+    JButton logoutButton = new JButton();
 
 
     public void openWindow(String user, String name, String surname, Connection con, Statement stmt){
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
-        frame.setSize(400, 200);
+        frame.setSize(400, 240);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
 
-        String s = user + " " + name+" "+surname;
-
+        String s = name+" "+surname;
+        s = s.replaceAll("\\s+"," ");
         panel.setLayout(null);
 
         userLabel = new JLabel("Panel prowadzącego");
@@ -27,7 +28,7 @@ public class TeacherView extends MainWindow{
         panel.add(userLabel);
 
         userLabel2 = new JLabel("Prowadzący : " + s);
-        userLabel2.setBounds(10, 35, 200, 25);
+        userLabel2.setBounds(10, 35, 300, 25);
         panel.add(userLabel2);
 
         button = new JButton("Wpisz ocenę");
@@ -46,6 +47,10 @@ public class TeacherView extends MainWindow{
         button4 = new JButton("Sprawdź swój plan");
         button4.setBounds(210, 110, 150, 25);
         panel.add(button4);
+
+        logoutButton = new JButton("Wyloguj");
+        logoutButton.setBounds(40,150,320,25);
+        panel.add(logoutButton);
 
         button.addActionListener(new ActionListener() {
             @Override
@@ -71,7 +76,17 @@ public class TeacherView extends MainWindow{
         button4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                timetableView timetable = new timetableView(0,Integer.parseInt(user),con,stmt);
+            }
+        });
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MainWindow mainwind = new MainWindow();
+                JFrame mainWind = new JFrame();
+                mainwind.openWindow(mainWind);
             }
         });
 

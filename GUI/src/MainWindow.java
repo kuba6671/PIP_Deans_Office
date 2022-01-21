@@ -1,9 +1,10 @@
 import javax.swing.*;
 
 public class MainWindow extends GUI {
-    public void openWindow() {
+    JFrame frame;
+    public void openWindow(JFrame frame) {
         JPanel panel = new JPanel();
-        JFrame frame = new JFrame();
+        this.frame = frame;
         frame.setSize(400, 200);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

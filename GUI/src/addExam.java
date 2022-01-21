@@ -79,13 +79,10 @@ public class addExam extends JFrame implements ActionListener {
             exam.dispose();
         }
         else if (e.getSource() == submitButton) {
-            System.out.println(datePicker1.getDate().toString());
             if(!this.datePicker1.getText().isEmpty()) {
                 dateFormString = this.datePicker1.getDate().toString() +" "+ this.timePicker1.getText();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm",Locale.ENGLISH);
                 date = LocalDateTime.parse(dateFormString, formatter);
-                System.out.println("String= "+dateFormString);
-                System.out.println("Date= "+date.toString());
             }
             if(!this.groupField.getText().isEmpty()){
                 groupName = groupField.getText();

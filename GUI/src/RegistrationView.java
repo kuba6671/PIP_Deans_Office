@@ -106,18 +106,7 @@ public class RegistrationView extends GUI {
             excep.printStackTrace();
         } catch (Exception excep) {
             excep.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null)
-                    con.close();
-            } catch (SQLException se) {}
-            try {
-                if (con != null)
-                    con.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-        }
+        } 
     }
 
     private void clearform(){

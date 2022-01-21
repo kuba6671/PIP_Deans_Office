@@ -8,16 +8,18 @@ public class StudentView extends GUI implements ActionListener {
     JButton button2 = new JButton();
     JButton button3 = new JButton();
     JButton button4 = new JButton();
+    JButton logoutButton = new JButton();
 
     public void openWindow(String user, String name, String surname,Connection con,Statement stmt){
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
-        frame.setSize(400, 200);
+        frame.setSize(400, 240);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
 
-        String s = user + " " + name +" "+ surname;
+        String s = name+" "+surname;
+        s = s.replaceAll("\\s+"," ");
 
         panel.setLayout(null);
 
@@ -45,6 +47,10 @@ public class StudentView extends GUI implements ActionListener {
         button4.setBounds(210, 110, 150, 25);
         panel.add(button4);
 
+        logoutButton = new JButton("Wyloguj");
+        logoutButton.setBounds(40,150,320,25);
+        panel.add(logoutButton);
+
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,7 +61,16 @@ public class StudentView extends GUI implements ActionListener {
         button2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                int groupID=0;
+                try {
+                    ResultSet studentGroup = stmt.executeQuery("select * from Student where indexNumber ='"+user+"'");
+                    if(studentGroup.next()){
+                        groupID = studentGroup.getInt("groupID");
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                timetableView timetable = new timetableView(groupID,0,con,stmt);
             }
         });
 
@@ -81,6 +96,16 @@ public class StudentView extends GUI implements ActionListener {
             {
                 ProposalView proposal = new ProposalView(Integer.parseInt(user), con, stmt);
 
+            }
+        });
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                MainWindow mainwind = new MainWindow();
+                JFrame mainWind = new JFrame();
+                mainwind.openWindow(mainWind);
             }
         });
 

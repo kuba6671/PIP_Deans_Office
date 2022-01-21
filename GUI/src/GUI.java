@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class GUI extends JFrame implements ActionListener {
-
     protected static JLabel userLabel;
     protected static JLabel userLabel2;
     protected static JTextField userText;
@@ -13,17 +12,16 @@ public class GUI extends JFrame implements ActionListener {
     protected static JPasswordField passwordText;
     protected static JButton button;
     protected static JLabel success;
-
-
+    private static JFrame mainWind;
 
     public static void main(String[] args) {
         MainWindow mainwind = new MainWindow();
-        mainwind.openWindow();
+        mainWind = new JFrame();
+        mainwind.openWindow(mainWind);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JFrame mainwind = this;
         TeacherView teacher = new TeacherView();
         StudentView student = new StudentView();
         OfficeView office = new OfficeView();
@@ -49,6 +47,7 @@ public class GUI extends JFrame implements ActionListener {
                 name = loginStudent.getString("name");
                 surname = loginStudent.getString("surname");
                 student.openWindow(user,name,surname, con, stmt);
+                mainWind.dispose();
             }
             ResultSet loginTeacher = stmt.executeQuery("select * from Teacher where teacherID ='"+user+"' AND password='"+password+"'");
             if(loginTeacher.next()){
@@ -56,6 +55,7 @@ public class GUI extends JFrame implements ActionListener {
                 name = loginTeacher.getString("name");
                 surname = loginTeacher.getString("surname");
                 teacher.openWindow(user,name,surname,con, stmt);
+                mainWind.dispose();
             }
             ResultSet loginEmployee = stmt.executeQuery("select * from OfficeEmployee where OfficeEmployeeID ='"+user+"' AND password='"+password+"'");
             if(loginEmployee.next()){
@@ -63,33 +63,33 @@ public class GUI extends JFrame implements ActionListener {
                 name = loginEmployee.getString("name");
                 surname = loginEmployee.getString("surname");
                 office.openWindow(user,name,surname, con, stmt);
+                mainWind.dispose();
             }
             else{
                 success.setText("Login doesnt succesful");
             }
+            Statement finalStmt = stmt;
+            Runtime.getRuntime().addShutdownHook(new Thread()
+            {
+                @Override
+                public void run()
+                {
+                    try {
+                        if (finalStmt != null)
+                            con.close();
+                    } catch (SQLException se) {}
+                    try {
+                        if (con != null)
+                            con.close();
+                    } catch (SQLException se) {
+                        se.printStackTrace();
+                    }
+                }
+            });
         } catch (ClassNotFoundException | SQLException classNotFoundException) {
             classNotFoundException.printStackTrace();
         }
 
-        //success.setText("Login succesful!");
-        //office.openWindow(user,password);
-
-        /*if(user.equals("")&&password.equals("")){
-            success.setText("Login succesful!");
-            teacher.openWindow(user,password);
-        }
-
-        else if(user.equals("tomasz")&&password.equals("chuma")){
-            success.setText("Login succesful!");
-            student.openWindow(user,password);
-        }
-
-        else if(user.equals("pracownik")&&password.equals("dziekanatu")){
-            success.setText("Login succesful!");
-            office.openWindow(user,password);
-        }
-        else
-            success.setText("Login doesnt succesful");*/
     }
 
 

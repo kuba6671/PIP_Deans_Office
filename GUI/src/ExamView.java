@@ -29,7 +29,7 @@ public class ExamView extends JFrame {
             while(examine.next()){
                 data[i][j] = examine.getString("name");
                 j++;
-                data[i][j] = examine.getString("data");
+                data[i][j] = examine.getString("date");
                 i++;
                 j=0;
             }
