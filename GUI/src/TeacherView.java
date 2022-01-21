@@ -64,7 +64,7 @@ public class TeacherView extends MainWindow{
         button3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0);
+                addLessonToTimetable lesson = new addLessonToTimetable(con, stmt);
             }
         });
 

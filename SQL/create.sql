@@ -1,6 +1,6 @@
 CREATE TABLE exam (
     examid     INTEGER NOT NULL,
-    data       DATE,
+    "date"     DATE,
     groupid    INTEGER NOT NULL,
     teacherid  INTEGER NOT NULL,
     subjectid  INTEGER NOT NULL
@@ -10,16 +10,17 @@ ALTER TABLE exam ADD CONSTRAINT exam_pk PRIMARY KEY ( examid );
 
 CREATE TABLE lesson (
     lessonid     INTEGER NOT NULL,
-    name         CHAR(40 CHAR),
-    data         DATE,
-    timetableid  INTEGER NOT NULL
+    lessontime   DATE,
+    timetableid  INTEGER NOT NULL,
+    weekdayid    INTEGER NOT NULL,
+    subjectid    INTEGER NOT NULL
 );
 
 ALTER TABLE lesson ADD CONSTRAINT lesson_pk PRIMARY KEY ( lessonid );
 
 CREATE TABLE mark (
     markid       INTEGER NOT NULL,
-    value        FLOAT(4),
+    value        INTEGER,
     indexnumber  INTEGER NOT NULL,
     teacherid    INTEGER NOT NULL,
     subjectid    INTEGER NOT NULL
@@ -70,7 +71,7 @@ CREATE TABLE studentgroup (
     name     CHAR(40 CHAR)
 );
 
-ALTER TABLE studentgroup ADD CONSTRAINT group_pk PRIMARY KEY ( groupid );
+ALTER TABLE studentgroup ADD CONSTRAINT studentgroup_pk PRIMARY KEY ( groupid );
 
 CREATE TABLE subject (
     subjectid  INTEGER NOT NULL,
@@ -103,8 +104,15 @@ CREATE UNIQUE INDEX timetable__idx ON
 
 ALTER TABLE timetable ADD CONSTRAINT timetable_pk PRIMARY KEY ( timetableid );
 
+CREATE TABLE weekday (
+    weekdayid  INTEGER NOT NULL,
+    name       CHAR(40 CHAR)
+);
+
+ALTER TABLE weekday ADD CONSTRAINT weekday_pk PRIMARY KEY ( weekdayid );
+
 ALTER TABLE exam
-    ADD CONSTRAINT exam_group_fk FOREIGN KEY ( groupid )
+    ADD CONSTRAINT exam_studentgroup_fk FOREIGN KEY ( groupid )
         REFERENCES studentgroup ( groupid );
 
 ALTER TABLE exam
@@ -116,8 +124,16 @@ ALTER TABLE exam
         REFERENCES teacher ( teacherid );
 
 ALTER TABLE lesson
+    ADD CONSTRAINT lesson_subject_fk FOREIGN KEY ( subjectid )
+        REFERENCES subject ( subjectid );
+
+ALTER TABLE lesson
     ADD CONSTRAINT lesson_timetable_fk FOREIGN KEY ( timetableid )
         REFERENCES timetable ( timetableid );
+
+ALTER TABLE lesson
+    ADD CONSTRAINT lesson_weekday_fk FOREIGN KEY ( weekdayid )
+        REFERENCES weekday ( weekdayid );
 
 ALTER TABLE mark
     ADD CONSTRAINT mark_student_fk FOREIGN KEY ( indexnumber )
@@ -136,15 +152,20 @@ ALTER TABLE proposal
         REFERENCES student ( indexnumber );
 
 ALTER TABLE student
-    ADD CONSTRAINT student_group_fk FOREIGN KEY ( groupid )
+    ADD CONSTRAINT student_studentgroup_fk FOREIGN KEY ( groupid )
         REFERENCES studentgroup ( groupid );
 
 ALTER TABLE timetable
-    ADD CONSTRAINT timetable_group_fk FOREIGN KEY ( groupid )
+    ADD CONSTRAINT timetable_studentgroup_fk FOREIGN KEY ( groupid )
         REFERENCES studentgroup ( groupid );
+
 
 
 CREATE SEQUENCE group_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE proposal_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE subject_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE exam_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE timetable_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE lesson_seq START WITH 1 INCREMENT BY 1;
+
+//select to_char(lessontime,'HH24:MM') from lesson_tmp;

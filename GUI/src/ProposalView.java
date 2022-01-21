@@ -27,12 +27,13 @@ public class ProposalView extends JFrame implements ActionListener {
     private JButton resetButton;
     private JPanel avgPanel;
     private JPanel incomePanel;
+    private JButton closeButton;
     Statement stmt;
     Connection con;
 
     public ProposalView(int indexNumber, Connection con, Statement stmt) {
         JFrame proposal = this;
-        proposal.setSize(400, 400);
+        proposal.setSize(400, 500);
         proposal.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(ProposalPanel);
@@ -46,6 +47,13 @@ public class ProposalView extends JFrame implements ActionListener {
 
         resetButton.addActionListener(this);
         sendButton.addActionListener(this);
+
+        closeButton.addActionListener((new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                proposal.dispose();
+            }
+        }));
 
 
         ProposalForm.setVisible(true);
