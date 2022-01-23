@@ -123,7 +123,10 @@ public class examiningProposal extends JFrame implements ActionListener {
                     fieldOfStudyField.setText(proposals.getString("fieldOfStudy"));
                     sessionField.setText(proposals.getString("session"));
                     indexField.setText(proposals.getString("indexNumber"));
-                    dateField.setText(proposals.getString("date"));
+                    String dateFormat = proposals.getString("date");
+                    String[] parts = dateFormat.split(" ");
+                    dateFormat = parts[0];
+                    dateField.setText(dateFormat);
                     incomeField.setText(proposals.getString("income"));
                 }
                 else{
@@ -153,7 +156,10 @@ public class examiningProposal extends JFrame implements ActionListener {
                         fieldOfStudyField.setText(proposals.getString("fieldOfStudy"));
                         sessionField.setText(proposals.getString("session"));
                         indexField.setText(proposals.getString("indexNumber"));
-                        dateField.setText(proposals.getString("date"));
+                        String dateFormat = proposals.getString("date");
+                        String[] parts = dateFormat.split(" ");
+                        dateFormat = parts[0];
+                        dateField.setText(dateFormat);
                         avgField.setText(proposals.getString("avg"));
                     }
                     else{

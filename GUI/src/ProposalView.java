@@ -1,3 +1,5 @@
+import com.github.lgooddatepicker.components.DatePicker;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
@@ -19,7 +21,7 @@ public class ProposalView extends JFrame implements ActionListener {
     private JTextField fieldOfStudy;
     private JTextField session;
     private JTextField id;
-    private JTextField date;
+    // JTextField date;
     private JTextField income;
     private JTextField avg;
     private JPanel ButtonPanel;
@@ -28,6 +30,7 @@ public class ProposalView extends JFrame implements ActionListener {
     private JPanel avgPanel;
     private JPanel incomePanel;
     private JButton closeButton;
+    private DatePicker date;
     Statement stmt;
     Connection con;
 
@@ -78,6 +81,7 @@ public class ProposalView extends JFrame implements ActionListener {
         double avg= 0.0;
         LocalDate date = null;
         int count=0;
+        String dateFormString = null;
 
         if (e.getSource() == resetButton) {
             name.setText("");
@@ -94,8 +98,8 @@ public class ProposalView extends JFrame implements ActionListener {
                 session = Integer.parseInt(this.session.getText());
             }
             if(!this.date.getText().isEmpty()) {
-                String dateFormString = this.date.getText();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy", Locale.ENGLISH);
+                dateFormString = this.date.getDate().toString();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
                 date = LocalDate.parse(dateFormString, formatter);
             }
             if (isSelected == "Stypendium socjalne") {
@@ -107,9 +111,13 @@ public class ProposalView extends JFrame implements ActionListener {
 
                 try {
                     count = stmt.executeUpdate("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
-                            ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+SocialGrantForm.proposalName+
-                                    "','"+SocialGrantForm.date+"','"+SocialGrantForm.session+
-                            "',"+SocialGrantForm.income+","+SocialGrantForm.id+")");
+                                    ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+SocialGrantForm.proposalName+
+                                    "',TO_DATE('"+dateFormString+"','YYYY-MM-DD'),'"+SocialGrantForm.session+
+                                    "',"+SocialGrantForm.income+","+SocialGrantForm.id+")");
+                    /*
+                    TO_DATE('"
+                        +dateFormString+"', 'YYYY-MM-DD HH24:MI'),
+                     */
                     if(count>0)
                         System.out.println("records inserted succesfully");
                     else

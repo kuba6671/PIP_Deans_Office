@@ -106,7 +106,7 @@ public class RegistrationView extends GUI {
             excep.printStackTrace();
         } catch (Exception excep) {
             excep.printStackTrace();
-        } 
+        }
     }
 
     private void clearform(){

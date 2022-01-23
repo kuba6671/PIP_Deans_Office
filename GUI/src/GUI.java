@@ -27,7 +27,6 @@ public class GUI extends JFrame implements ActionListener {
         OfficeView office = new OfficeView();
         String user = userText.getText();
         String password = passwordText.getText();
-        System.out.println(user + ", " + password);
 
         Connection conn = null;
         Statement stmt = null;

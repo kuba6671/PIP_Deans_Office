@@ -159,11 +159,9 @@
                   <text value="Data"/>
                 </properties>
               </component>
-              <component id="8f093" class="javax.swing.JTextField" binding="date">
+              <component id="91591" class="com.github.lgooddatepicker.components.DatePicker" binding="date">
                 <constraints/>
-                <properties>
-                  <preferredSize width="181" height="30"/>
-                </properties>
+                <properties/>
               </component>
             </children>
           </grid>

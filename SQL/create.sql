@@ -21,7 +21,7 @@ ALTER TABLE lesson ADD CONSTRAINT lesson_pk PRIMARY KEY ( lessonid );
 
 CREATE TABLE mark (
     markid       INTEGER NOT NULL,
-    value        INTEGER,
+    value        NUMBER(2,1),
     indexnumber  INTEGER NOT NULL,
     teacherid    INTEGER NOT NULL,
     subjectid    INTEGER NOT NULL
