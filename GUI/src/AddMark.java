@@ -19,6 +19,7 @@ public class AddMark extends JFrame{
     private JComboBox GroupChoose;
     private JTable markTable;
     private JPanel MarkPanel;
+    private JComboBox Sub1;
     private JScrollPane ScrollMark;
 
     private int i;
@@ -27,11 +28,12 @@ public class AddMark extends JFrame{
 
     private String isSelected;
     private String select;
+    private String select2;
 
     private final DefaultTableModel model = new DefaultTableModel(0, 6);
 
 
-    String[] header = {"ID","Przedmiot1", "Przedmiot2", "Przedmiot3", "Przedmiot4","Przedmiot5","StID"};
+    //String[] header = {"ID","Przedmiot1", "Przedmiot2", "Przedmiot3", "Przedmiot4","Przedmiot5","StID"};
 
     public AddMark() {
         JFrame marks = this;
@@ -40,8 +42,8 @@ public class AddMark extends JFrame{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(MarkPanel);
 
-        model.setColumnIdentifiers(header);
-        markTable = new JTable(model);
+        //model.setColumnIdentifiers(header);
+        //markTable = new JTable(model);
 
         GroupChoose.addItem("Wybierz grupę");
         StudentChoose.addItem("Wybierz studenta");
@@ -56,6 +58,7 @@ public class AddMark extends JFrame{
                 if(GroupChoose.getSelectedItem()!="Wybierz grupę") {
                     AddMark.this.isSelected = GroupChoose.getSelectedItem().toString();
                     studentCombo(isSelected);
+                    System.out.println("AAAA");
                 }
 
             }
@@ -72,18 +75,32 @@ public class AddMark extends JFrame{
                 }
 
                 if(StudentChoose.getSelectedItem()!="Wybierz studenta") {
+                    System.out.println("CCC");
                     AddMark.this.select = StudentChoose.getSelectedItem().toString();
-                    makeTable(select);
+                    System.out.println("AAA");
+                    markCombo(select);
+                    System.out.println("BBBB");
                 }
+
+            }
+        });
+
+        Sub1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("XPPP");
+
+                AddMark.this.select2 = Sub1.getSelectedItem().toString();
+                System.out.println("XXX");
 
             }
         });
 
 
 
-        ScrollMark = new JScrollPane(markTable);
-        marks.add(ScrollMark);
-        markTable.setVisible(true);
+        //ScrollMark = new JScrollPane(markTable);
+        //marks.add(ScrollMark);
+        //markTable.setVisible(true);
         marks.setVisible(true);
 
     }
@@ -95,7 +112,7 @@ public class AddMark extends JFrame{
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
             Statement stmt = con.createStatement();
-            System.out.println("Connection is created successfully:");
+            System.out.println("GConnection is created successfully:");
             ResultSet rs = stmt.executeQuery("select distinct groupid from studenci order by groupid asc");
             while(rs.next())
             {
@@ -115,11 +132,11 @@ public class AddMark extends JFrame{
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
             Statement stmt = con.createStatement();
-            System.out.println("Connection is created successfully:");
-            ResultSet rs = stmt.executeQuery("select firstname from studenci where groupid = " + group);
+            System.out.println("SConnection is created successfully:");
+            ResultSet rs = stmt.executeQuery("select studentid from studenci where groupid = " + group);
             while(rs.next())
             {
-                StudentChoose.addItem(rs.getString("firstname"));
+                StudentChoose.addItem(rs.getString("studentid"));
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -128,7 +145,7 @@ public class AddMark extends JFrame{
         }
     }
 
-    private void makeTable(String studentID){
+    /*private void makeTable(String studentID){
 
             try {
 
@@ -149,7 +166,51 @@ public class AddMark extends JFrame{
                 throwables.printStackTrace();
             }
 
+    }*/
+
+    private void markCombo(String studentID){
+        Sub1.removeAllItems();
+        for(int i = 2; i < 6; i++){
+            Sub1.addItem(i);
+        }
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
+            Statement stmt = con.createStatement();
+            System.out.println("MConnection is created successfully:");
+            ResultSet rs = stmt.executeQuery("select Sub1 from oceny where studentid = " + studentID);
+            while(rs.next())
+            {
+                Sub1.setSelectedItem(rs.getInt("Sub1"));
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
+
+    private void changeMark(String studentID, String mark){
+        System.out.println(studentID);
+        System.out.println(mark);
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
+            Statement stmt = con.createStatement();
+            System.out.println("Connection is created successfully:");
+
+            int count = stmt.executeUpdate("update oceny set Sub1 = " + mark + " where studentid = " + studentID);
+            if(count>0)
+                System.out.println("records inserted succesfully");
+            else
+                System.out.println("records insertion failed");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
 
 
 }
