@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.Properties;
 import java.util.Vector;
@@ -15,17 +16,19 @@ public class StudentsList extends JFrame {
     private JTable studentTable;
     private JScrollPane ScrollStudent;
     private JComboBox GroupChoose;
+    private JComboBox FieldChoose;
 
     private final DefaultTableModel model = new DefaultTableModel(0, 6);
 
 
-    String[] header = {"Nr indeksu", "Nazwisko", "Imię", "Nr telefonu","Email","Grupa"};
+    String[] header = {"Nr indeksu", "Nazwisko", "Imię","Wiek", "Nr telefonu","Email"};
 
-    private String isSelected;
+    private String Select;
+    private String Select2;
 
 
 
-    public StudentsList(){
+    public StudentsList(Connection con, Statement stmt){
         JFrame students = this;
         students.setSize(400, 400);
         students.setLocationRelativeTo(null);
@@ -35,20 +38,33 @@ public class StudentsList extends JFrame {
         model.setColumnIdentifiers(header);
         studentTable = new JTable(model);
 
+        FieldChoose.addItem("Wybierz kierunek");
+        GroupChoose.addItem("Wybierz grupę");
 
 
-        groupCombo();
-        //makeTable();
+        fieldCombo(con, stmt);
 
-        //examTable.setDefaultEditor(Object.class, null);
+        FieldChoose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                StudentsList.this.Select = FieldChoose.getSelectedItem().toString();
+                groupCombo(Select, con, stmt);
+
+            }
+        });
 
 
         GroupChoose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 remove();
-                StudentsList.this.isSelected = GroupChoose.getSelectedItem().toString();
-                groupSort(isSelected);
+                if(GroupChoose.getItemCount()==0){
+                    GroupChoose.addItem("Wybierz grupę");
+                }
+                if(GroupChoose.getSelectedItem()!="Wybierz grupę") {
+                    StudentsList.this.Select2 = GroupChoose.getSelectedItem().toString();
+                    groupSort(Select,Select2,con, stmt);
+                }
             }
         });
 
@@ -57,45 +73,48 @@ public class StudentsList extends JFrame {
         studentTable.setVisible(true);
         students.setVisible(true);
 
+
     }
 
-    private void groupCombo(){
+    private void fieldCombo(Connection con, Statement stmt){
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
-            Statement stmt = con.createStatement();
-            System.out.println("Connection is created successfully:");
-            ResultSet rs = stmt.executeQuery("select distinct groupid from studenci order by groupid asc");
+            ResultSet rs = stmt.executeQuery("select distinct fieldofstudy from student order by fieldofstudy asc");
             while(rs.next())
             {
-                GroupChoose.addItem(rs.getInt("groupid"));
+                FieldChoose.addItem(rs.getString("fieldofstudy"));
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void groupCombo(String field, Connection con, Statement stmt){
+        GroupChoose.removeAllItems();
+        try {
+            ResultSet rs = stmt.executeQuery("select distinct studentgroup.name from student join studentgroup on studentgroup.groupid=student.groupid where fieldofstudy = '" + field + "' order by studentgroup.name asc");
+            while(rs.next())
+            {
+                GroupChoose.addItem(rs.getString("name"));
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
 
-    private void groupSort(String group) {
+    private void groupSort(String field,String group, Connection con, Statement stmt) {
         try {
-
-
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
-            Statement stmt = con.createStatement();
             System.out.println("Connection is created successfully:");
-            ResultSet rs = stmt.executeQuery("select * from studenci where groupid = " + group);
+            ResultSet rs = stmt.executeQuery("select * from student join studentgroup on student.groupid = studentgroup.groupid where studentgroup.name = " + group + "AND fieldofstudy = '" + field + "'");
             while (rs.next()) {
-                Object[] row = {rs.getInt("studentid"), rs.getString("lastname"), rs.getString("firstname"), rs.getInt("phonenumber"), rs.getString("mail"), rs.getInt("groupid")};
+                Object[] row = {rs.getInt("indexnumber"), rs.getString("surname"), rs.getString("name"),rs.getInt("Age"),rs.getInt("phonenumber"), rs.getString("mail")};
                 model.addRow(row);
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
+        }
+        catch (SQLException throwables) {
             throwables.printStackTrace();
-
 
         }
     }
@@ -105,9 +124,5 @@ public class StudentsList extends JFrame {
             model.removeRow(0);
         }
     }
-
-
-
-
 
 }

@@ -20,6 +20,7 @@ public class AddMark extends JFrame{
     private JTable markTable;
     private JPanel MarkPanel;
     private JComboBox Sub1;
+    private JComboBox FieldChoose;
     private JScrollPane ScrollMark;
 
     private int i;
@@ -132,7 +133,7 @@ public class AddMark extends JFrame{
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
             Statement stmt = con.createStatement();
-            System.out.println("SConnection is created successfully:");
+            System.out.println("Connection is created successfully:");
             ResultSet rs = stmt.executeQuery("select studentid from studenci where groupid = " + group);
             while(rs.next())
             {
