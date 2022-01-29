@@ -1,10 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ExamView extends JFrame {
     private JPanel ExamPanel;
@@ -23,9 +20,12 @@ public class ExamView extends JFrame {
         String[][] data = new String[20][2];
         String[] columnNames = {"Przedmiot", "Data"};
         try{
-            ResultSet examine = stmt.executeQuery("select subject.name, \"date\" from exam JOIN StudentGroup ON StudentGroup.groupID =exam.groupID" +
+            String sql ="select subject.name, \"date\" from exam JOIN StudentGroup ON StudentGroup.groupID =exam.groupID" +
                     " JOIN subject ON exam.subjectID = subject.subjectID" +
-                    " where exam.groupID ="+groupID);
+                    " where exam.groupID =? ORDER BY \"date\"";
+            PreparedStatement prepStmt = con.prepareStatement(sql);
+            prepStmt.setString(1,Integer.toString(groupID));
+            ResultSet examine = prepStmt.executeQuery();
             while(examine.next()){
                 data[i][j] = examine.getString("name");
                 j++;

@@ -1,10 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class timetableView extends JFrame {
     private JPanel timetablePanel;
@@ -32,7 +29,7 @@ public class timetableView extends JFrame {
             data = new String[20][4];
             columnNames = new String[]{"Przedmiot", "Dzien tygodnia", "Godzina", "Prowadzacy"};
             try {
-                ResultSet lessons = stmt.executeQuery("SELECT subject.name as przedmiot , " +
+                String sql = "SELECT subject.name as przedmiot ,weekday.weekdayID as idweek, " +
                         "weekday.name as dzien_tygodnia, " +
                         "lessontime as godzina, teacher.name as imie," +
                         "teacher.surname as nazwisko from lesson " +
@@ -40,7 +37,10 @@ public class timetableView extends JFrame {
                         "JOIN weekday ON weekday.weekdayID = lesson.weekdayID " +
                         "JOIN teacher ON teacher.teacherid = lesson.teacherid " +
                         "JOIN timetable ON timetable.timetableID = lesson.timetableID" +
-                        " where timetable.groupID =" + groupID);
+                        " where timetable.groupID =? ORDER BY idweek, lessontime";
+                PreparedStatement prepStmt = con.prepareStatement(sql);
+                prepStmt.setString(1,Integer.toString(groupID));
+                ResultSet lessons = prepStmt.executeQuery();
 
                 while (lessons.next()) {
                     subjectName = lessons.getString("przedmiot");
@@ -77,16 +77,19 @@ public class timetableView extends JFrame {
             data = new String[20][4];
             columnNames = new String[]{"Przedmiot", "Dzien tygodnia", "Godzina", "Grupa"};
             try{
-                ResultSet lessons = stmt.executeQuery("SELECT subject.name as przedmiot , " +
-                        "weekday.name as dzien_tygodnia, "+
-                        "lessontime as godzina, studentGroup.name as grupa"+
-                        " from lesson "+
-                        "JOIN subject ON lesson.subjectid = subject.subjectid "+
-                        "JOIN weekday ON weekday.weekdayID = lesson.weekdayID "+
-                        "JOIN teacher ON teacher.teacherid = lesson.teacherid "+
-                        "JOIN timetable ON timetable.timetableID = lesson.timetableID "+
-                        "JOIN StudentGroup ON StudentGroup.groupID = timetable.groupID "+
-                        " where lesson.teacherID ="+teacherID);
+                String sql = "SELECT subject.name as przedmiot ,weekday.weekdayID as idweek," +
+                        "weekday.name as dzien_tygodnia, " +
+                        "lessontime as godzina, studentGroup.name as grupa" +
+                        " from lesson " +
+                        "JOIN subject ON lesson.subjectid = subject.subjectid " +
+                        "JOIN weekday ON weekday.weekdayID = lesson.weekdayID " +
+                        "JOIN teacher ON teacher.teacherid = lesson.teacherid " +
+                        "JOIN timetable ON timetable.timetableID = lesson.timetableID " +
+                        "JOIN StudentGroup ON StudentGroup.groupID = timetable.groupID " +
+                        " where lesson.teacherID =? ORDER BY idweek, lessontime";
+                PreparedStatement prepStmt = con.prepareStatement(sql);
+                prepStmt.setString(1,Integer.toString(teacherID));
+                ResultSet lessons = prepStmt.executeQuery();
 
                 while(lessons.next()){
                     subjectName = lessons.getString("przedmiot");
