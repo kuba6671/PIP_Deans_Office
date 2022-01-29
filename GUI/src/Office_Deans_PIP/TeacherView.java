@@ -1,5 +1,3 @@
-package Office_Deans_PIP;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,7 +55,7 @@ public class TeacherView extends MainWindow{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                AddMark addMark = new AddMark();
+                AddMark addMark = new AddMark(user, con, stmt);
             }
         });
 

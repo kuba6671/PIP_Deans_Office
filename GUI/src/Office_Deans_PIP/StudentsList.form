@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Office_Deans_PIP.StudentsList">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="StudentsList">
   <grid id="27dc6" binding="StudentPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="64" y="33" width="396" height="339"/>
@@ -33,6 +33,12 @@
           </component>
         </children>
       </grid>
+      <component id="35fbb" class="javax.swing.JButton" binding="closeButton">
+        <constraints border-constraint="South"/>
+        <properties>
+          <text value="Zamknij"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

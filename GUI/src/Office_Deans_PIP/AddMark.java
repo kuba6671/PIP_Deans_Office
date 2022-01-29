@@ -1,10 +1,17 @@
-package Office_Deans_PIP;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
+import java.util.Properties;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 
 public class AddMark extends JFrame{
@@ -12,24 +19,30 @@ public class AddMark extends JFrame{
     private JComboBox GroupChoose;
     private JTable markTable;
     private JPanel MarkPanel;
-    private JComboBox Sub1;
     private JComboBox FieldChoose;
+    private JComboBox SubjectChoose;
+    private JComboBox MarkChoose;
+    private JButton CloseButton;
+    private JButton CommitButton;
     private JScrollPane ScrollMark;
 
     private int i;
 
+    private String selectedField;
+    private String selectedGroup;
+    private String selectedStudent;
+    private String selectedSubject;
+    private String selectedMark;
 
-
-    private String isSelected;
-    private String select;
-    private String select2;
+    private int subjectID;
+    private int studentID;
 
     private final DefaultTableModel model = new DefaultTableModel(0, 6);
 
 
     //String[] header = {"ID","Przedmiot1", "Przedmiot2", "Przedmiot3", "Przedmiot4","Przedmiot5","StID"};
 
-    public AddMark() {
+    public AddMark(String user, Connection con, Statement stmt) {
         JFrame marks = this;
         marks.setSize(400, 400);
         marks.setLocationRelativeTo(null);
@@ -39,169 +52,200 @@ public class AddMark extends JFrame{
         //model.setColumnIdentifiers(header);
         //markTable = new JTable(model);
 
+        FieldChoose.addItem("Wybierz kierunek");
         GroupChoose.addItem("Wybierz grupę");
         StudentChoose.addItem("Wybierz studenta");
+        SubjectChoose.addItem("Wybierz przedmiot");
 
 
-        groupCombo();
+        fieldCombo(con, stmt);
+
+        FieldChoose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddMark.this.selectedField = FieldChoose.getSelectedItem().toString();
+                //SubjectChoose.removeAllItems();
+                groupCombo(selectedField, con, stmt);
+
+            }
+        });
 
 
         GroupChoose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(GroupChoose.getSelectedItem()!="Wybierz grupę") {
-                    AddMark.this.isSelected = GroupChoose.getSelectedItem().toString();
-                    studentCombo(isSelected);
-                    System.out.println("AAAA");
+                remove();
+                if(GroupChoose.getItemCount()==0){
+                    GroupChoose.addItem("Wybierz grupę");
                 }
-
+                else {
+                    AddMark.this.selectedGroup = GroupChoose.getSelectedItem().toString();
+                    studentCombo(selectedField, selectedGroup, con, stmt);
+                    subjectCombo(selectedGroup, con, stmt);
+                }
             }
         });
-
 
         StudentChoose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
+                remove();
                 if(StudentChoose.getItemCount()==0){
                     StudentChoose.addItem("Wybierz studenta");
                 }
-
-                if(StudentChoose.getSelectedItem()!="Wybierz studenta") {
-                    System.out.println("CCC");
-                    AddMark.this.select = StudentChoose.getSelectedItem().toString();
-                    System.out.println("AAA");
-                    markCombo(select);
-                    System.out.println("BBBB");
+                else {
+                    AddMark.this.selectedStudent = StudentChoose.getSelectedItem().toString();
                 }
 
             }
         });
 
-        Sub1.addActionListener(new ActionListener() {
+        SubjectChoose.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("XPPP");
+                remove();
+                if(SubjectChoose.getItemCount()==0){
+                    SubjectChoose.addItem("Wybierz przedmiot");
+                }
+                if(SubjectChoose.getSelectedItem()!="Wybierz przedmiot") {
+                    AddMark.this.selectedSubject = SubjectChoose.getSelectedItem().toString();
+                }
 
-                AddMark.this.select2 = Sub1.getSelectedItem().toString();
-                System.out.println("XXX");
+            }
+        });
 
+        MarkChoose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddMark.this.selectedMark = MarkChoose.getSelectedItem().toString();
+            }
+        });
+
+        CommitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(MarkChoose.getSelectedItem()!="Wybierz ocenę") {
+                    markAdd(user, con, stmt);
+                }
+            }
+        });
+        CloseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    marks.dispose();
             }
         });
 
 
 
-        //ScrollMark = new JScrollPane(markTable);
-        //marks.add(ScrollMark);
-        //markTable.setVisible(true);
+        ScrollMark = new JScrollPane(markTable);
+        marks.add(ScrollMark);
+        MarkPanel.setVisible(true);
         marks.setVisible(true);
 
     }
 
 
-    private void groupCombo(){
+    private void fieldCombo(Connection con, Statement stmt){
         try {
-
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
-            Statement stmt = con.createStatement();
-            System.out.println("GConnection is created successfully:");
-            ResultSet rs = stmt.executeQuery("select distinct groupid from studenci order by groupid asc");
+            ResultSet rs = stmt.executeQuery("select distinct fieldofstudy from student order by fieldofstudy asc");
             while(rs.next())
             {
-                GroupChoose.addItem(rs.getInt("groupid"));
+                FieldChoose.addItem(rs.getString("fieldofstudy"));
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    private void studentCombo(String group){
+    private void groupCombo(String field, Connection con, Statement stmt){
+        GroupChoose.removeAllItems();
+        try {
+            ResultSet rs = stmt.executeQuery("select distinct studentgroup.name from student join studentgroup on studentgroup.groupid=student.groupid where fieldofstudy = '" + field + "' order by studentgroup.name asc");
+            while(rs.next())
+            {
+                GroupChoose.addItem(rs.getString("name"));
+            }
 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void studentCombo(String field, String group, Connection con, Statement stmt){
         StudentChoose.removeAllItems();
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
-            Statement stmt = con.createStatement();
-            System.out.println("Connection is created successfully:");
-            ResultSet rs = stmt.executeQuery("select studentid from studenci where groupid = " + group);
+            ResultSet rs = stmt.executeQuery("select indexnumber, surname from student" +
+                    " join studentgroup on studentgroup.groupid=student.groupid" +
+                    " where fieldofstudy = '" + field + "' AND studentgroup.name = '" + group + "'");
             while(rs.next())
             {
-                StudentChoose.addItem(rs.getString("studentid"));
+                StudentChoose.addItem(rs.getInt("indexnumber") + " " + rs.getString("surname"));
+                studentID = rs.getInt("indexnumber");
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    /*private void makeTable(String studentID){
-
-            try {
-
-
-                Class.forName("oracle.jdbc.driver.OracleDriver");
-                Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
-                Statement stmt = con.createStatement();
-                System.out.println("Connection is created successfully:");
-                System.out.println("MAKE: " + studentID);
-                ResultSet rs = stmt.executeQuery("select * from oceny Join studenci on oceny.studentid=studenci.studentid where studenci.firstname = '" + studentID + "'");
-                while (rs.next()) {
-                    Object[] row = {rs.getInt("OcenaID"), rs.getString("Sub1"), rs.getString("Sub2"), rs.getString("Sub3"), rs.getString("Sub4"), rs.getString("Sub5"), rs.getInt("studentID")};
-                    model.addRow(row);
-                }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-
-    }*/
-
-    private void markCombo(String studentID){
-        Sub1.removeAllItems();
-        for(int i = 2; i < 6; i++){
-            Sub1.addItem(i);
-        }
+    private void subjectCombo(String group, Connection con, Statement stmt){
+        SubjectChoose.removeAllItems();
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
-            Statement stmt = con.createStatement();
-            System.out.println("MConnection is created successfully:");
-            ResultSet rs = stmt.executeQuery("select Sub1 from oceny where studentid = " + studentID);
+            ResultSet rs = stmt.executeQuery("select subject.name, subject.subjectid as subid from subject" +
+                    " join exam on subject.subjectid = exam.subjectid" +
+                    " join studentgroup on exam.groupid = studentgroup.groupid" +
+                    " WHERE studentgroup.name = '" + group + "'");
             while(rs.next())
             {
-                Sub1.setSelectedItem(rs.getInt("Sub1"));
+                SubjectChoose.addItem(rs.getString("name"));
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    private void changeMark(String studentID, String mark){
-        System.out.println(studentID);
-        System.out.println(mark);
+    private void markAdd(String teacher, Connection con, Statement stmt){
+        String result;
+        int count = 0;
+        int update = 0;
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "system");
-            Statement stmt = con.createStatement();
-            System.out.println("Connection is created successfully:");
+            ResultSet subid = stmt.executeQuery("Select * from subject " +
+                    "WHERE name ='"+ selectedSubject + "'");
+            while(subid.next()){
+                subjectID = subid.getInt("subjectid");
+            }
+            ResultSet rs = stmt.executeQuery("Select markid from mark" +
+                    " join student on student.indexnumber = mark.indexnumber" +
+                    " join subject on subject.subjectid = mark.subjectid" +
+                    " where mark.indexnumber = '" + studentID +
+                    "' and subject.subjectid = '" + subjectID + "'");
+            if(!rs.next()){
+                count = stmt.executeUpdate("insert into mark values(mark_seq.NEXTVAL,'"+selectedMark+"','"+studentID+"','"+teacher+"','"+subjectID+ "')");
+                if(count>0)
+                    System.out.println("records inserted succesfully");
 
-            int count = stmt.executeUpdate("update oceny set Sub1 = " + mark + " where studentid = " + studentID);
-            if(count>0)
-                System.out.println("records inserted succesfully");
-            else
-                System.out.println("records insertion failed");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
+            }
+            else{
+                System.out.println(subjectID);
+                update = stmt.executeUpdate("update mark set value = '"+ selectedMark +
+                        "' WHERE indexnumber = '"+ studentID +
+                        "' AND subjectid = '"+ subjectID + "'");
+                if(update>0)
+                    System.out.println("records updated succesfully");
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+    }
+
+    private void remove() {
+        while (model.getRowCount()> 0) {
+            model.removeRow(0);
         }
     }
 
