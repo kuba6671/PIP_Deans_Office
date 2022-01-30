@@ -1,10 +1,15 @@
-package Office_Deans_PIP;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.*;
+import java.util.Properties;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StudentsList extends JFrame {
     private JPanel StudentPanel;
@@ -12,6 +17,7 @@ public class StudentsList extends JFrame {
     private JScrollPane ScrollStudent;
     private JComboBox GroupChoose;
     private JComboBox FieldChoose;
+    private JButton closeButton;
 
     private final DefaultTableModel model = new DefaultTableModel(0, 6);
 
@@ -63,10 +69,18 @@ public class StudentsList extends JFrame {
             }
         });
 
+        closeButton.addActionListener((new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                students.dispose();
+            }
+        }));
+
         ScrollStudent = new JScrollPane(studentTable);
         students.add(ScrollStudent);
         studentTable.setVisible(true);
         students.setVisible(true);
+
 
 
     }
@@ -101,6 +115,7 @@ public class StudentsList extends JFrame {
 
     private void groupSort(String field,String group, Connection con, Statement stmt) {
         try {
+            System.out.println("Connection is created successfully:");
             ResultSet rs = stmt.executeQuery("select * from student join studentgroup on student.groupid = studentgroup.groupid where studentgroup.name = " + group + "AND fieldofstudy = '" + field + "'");
             while (rs.next()) {
                 Object[] row = {rs.getInt("indexnumber"), rs.getString("surname"), rs.getString("name"),rs.getInt("Age"),rs.getInt("phonenumber"), rs.getString("mail")};
