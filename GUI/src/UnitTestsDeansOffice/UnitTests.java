@@ -15,9 +15,19 @@ public class UnitTests {
             createTest.getOffice();
             insertTest.insertGroup();
             insertTest.insertStudent();
+            insertTest.insertTeacher();
+            insertTest.insertSubject();
+            insertTest.insertSocialGrantFormProposal();
+            insertTest.insertFellowShipFormProposal();
+            deleteTest.deleteSocialGrantForm();
+            deleteTest.deleteFellowShipForm();
             updateTest.updateStudent();
             updateTest.updateStudentGroup();
+            updateTest.updateProposalState();
+            insertTest.insertExam();
             deleteTest.deleteStudent();
+            deleteTest.deleteTeacher();
+            deleteTest.deleteSubject();
             deleteTest.deleteStudentGroup();
 
             System.out.println("\nAll tests finished correctly");

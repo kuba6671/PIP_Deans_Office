@@ -11,7 +11,6 @@ public class Proposal {
     int session, income;
     Double avg;
     String decision;
-    private ProposalState currentState;
 
     public Proposal(String proposalName, String name, String surname,
                     String fieldOfStudy, String id, String date, int session, int income) {
@@ -71,6 +70,10 @@ public class Proposal {
 
     public Double getAvg() {
         return avg;
+    }
+
+    public String getDecision() {
+        return decision;
     }
 
     public void setDecisionState(String decision) {

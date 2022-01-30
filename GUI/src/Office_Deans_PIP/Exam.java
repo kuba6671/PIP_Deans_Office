@@ -2,10 +2,11 @@ package Office_Deans_PIP;
 
 import java.time.LocalDateTime;
 
-public class Exam {
+public abstract class Exam implements Cloneable {
     int examID;
     LocalDateTime date;
     int groupID, teacherID, subjectID;
+    String type;
 
     public Exam(LocalDateTime date, int groupID, int teacherID, int subjectID) {
         this.date = date;
@@ -14,14 +15,7 @@ public class Exam {
         this.subjectID = subjectID;
     }
 
-    public Exam(int examID, LocalDateTime date, int groupID, int teacherID, int subjectID) {
-        this.examID = examID;
-        this.date = date;
-        this.groupID = groupID;
-        this.teacherID = teacherID;
-        this.subjectID = subjectID;
-    }
-    public Exam(){ }
+    public abstract Exam clone();
 
     public int getExamID() {
         return examID;
@@ -41,6 +35,14 @@ public class Exam {
 
     public int getSubjectID() {
         return subjectID;
+    }
+
+    public void setType() {
+        this.type = null;
+    }
+
+    public String getType() {
+        return type;
     }
 
 }

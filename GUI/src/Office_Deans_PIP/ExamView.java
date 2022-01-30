@@ -19,10 +19,11 @@ public class ExamView extends JFrame {
         this.setContentPane(ExamPanel);
 
         int i=0,j=0;
-        String[][] data = new String[20][2];
-        String[] columnNames = {"Przedmiot", "Data"};
+        String[][] data = new String[20][3];
+        String[] columnNames = {"Przedmiot", "Data", "Typ"};
         try{
-            String sql ="select subject.name, \"date\" from exam JOIN StudentGroup ON StudentGroup.groupID =exam.groupID" +
+            String sql ="select subject.name, \"date\", examtype from exam " +
+                    "JOIN StudentGroup ON StudentGroup.groupID =exam.groupID" +
                     " JOIN subject ON exam.subjectID = subject.subjectID" +
                     " where exam.groupID =? ORDER BY \"date\"";
             PreparedStatement prepStmt = con.prepareStatement(sql);
@@ -32,6 +33,8 @@ public class ExamView extends JFrame {
                 data[i][j] = examine.getString("name");
                 j++;
                 data[i][j] = examine.getString("date");
+                j++;
+                data[i][j]= examine.getString("examtype");
                 i++;
                 j=0;
             }

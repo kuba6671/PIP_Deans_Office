@@ -7,15 +7,14 @@ import com.github.lgooddatepicker.components.TimePicker;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class addExam extends JFrame implements ActionListener {
@@ -29,6 +28,7 @@ public class addExam extends JFrame implements ActionListener {
     private JButton exitButton;
     private JPanel DatePanel;
     private JPanel DateTextPanel;
+    private JComboBox typeComboBox;
     private JLabel dateText;
     JFrame exam;
     DatePicker datePicker1;
@@ -48,8 +48,13 @@ public class addExam extends JFrame implements ActionListener {
         this.stmt = stmt;
         this.con = con;
 
+        typeComboBox.addItem("Egzamin");
+        typeComboBox.addItem("Kolokwium");
+        typeComboBox.addItem("Obrona projektu");
+
         submitButton.addActionListener(this);
         exitButton.addActionListener(this);
+        typeComboBox.addActionListener(this);
 
 
         JPanel myDatePanel = DatePanel;
@@ -122,11 +127,33 @@ public class addExam extends JFrame implements ActionListener {
                     throwables.printStackTrace();
                 }
             }
-            Exam exam = new Exam(date,groupID,teacherID,subjectID);
+            String selectedType = (String) typeComboBox.getSelectedItem();
+            Exam exam = null;
+            if(selectedType == "Egzamin"){
+                FinalTest tmpObject = new FinalTest(date,groupID,teacherID,subjectID);
+                exam = tmpObject.clone();
+            }
+            else if(selectedType == "Kolokwium"){
+                Colloquium tmpObject = new Colloquium(date,groupID,teacherID,subjectID);
+                exam = tmpObject.clone();
+            }
+            else if(selectedType == "Obrona projektu"){
+                ProjectDefense tmpObject = new ProjectDefense(date,groupID,teacherID,subjectID);
+                exam = tmpObject.clone();
+            }
+            exam.setType();
+
             try {
-                count = stmt.executeUpdate("insert into exam values(exam_seq.NEXTVAL,TO_DATE('"
-                        +dateFormString+"', 'YYYY-MM-DD HH24:MI'),"+exam.getGroupID()+","
-                        +exam.getTeacherID()+","+exam.getSubjectID()+")");
+                String sql = "INSERT INTO EXAM (EXAMID, \"date\", GROUPID, TEACHERID, SUBJECTID, EXAMTYPE) " +
+                        "VALUES (exam_seq.NEXTVAL,TO_DATE(?,'YYYY-MM-DD HH24:MI')," +
+                        "?,?,?,?)";
+                PreparedStatement prepStmt = con.prepareStatement(sql);
+                prepStmt.setString(1,dateFormString);
+                prepStmt.setInt(2,exam.getGroupID());
+                prepStmt.setInt(3,exam.getTeacherID());
+                prepStmt.setInt(4,exam.getSubjectID());
+                prepStmt.setString(5,exam.getType());
+                count = prepStmt.executeUpdate();
                 if(count>0)
                     System.out.println("records inserted succesfully");
                 else
@@ -138,7 +165,6 @@ public class addExam extends JFrame implements ActionListener {
                 System.out.println("records inserted succesfully");
             else
                 System.out.println("records insertion failed");
-
         }
     }
 }

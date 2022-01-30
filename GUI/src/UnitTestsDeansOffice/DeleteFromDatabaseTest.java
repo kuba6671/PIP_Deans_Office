@@ -33,4 +33,36 @@ public class DeleteFromDatabaseTest {
             throwables.printStackTrace();
         }
     }
+
+    void deleteSocialGrantForm(){
+        try {
+            stmt.executeQuery(" DELETE FROM PROPOSAL WHERE PROPOSALID='9999'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    void deleteFellowShipForm(){
+        try {
+            stmt.executeQuery(" DELETE FROM PROPOSAL WHERE PROPOSALID='8888'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    void deleteTeacher(){
+        try {
+            stmt.executeQuery("DELETE FROM TEACHER WHERE TEACHERID='9999'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    void deleteSubject(){
+        try {
+            stmt.executeQuery("DELETE FROM SUBJECT WHERE SUBJECTID='9999'");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

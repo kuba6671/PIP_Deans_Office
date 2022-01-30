@@ -150,7 +150,7 @@ public class addLessonToTimetable extends JFrame implements ActionListener {
                 char[] myNameChars = lessonTime.toCharArray();
                 for(int i=0;i<myNameChars.length;i++){
                     if(myNameChars[i]==':')
-                        myNameChars[i]='.';
+                        myNameChars[i]=',';
                 }
                 String myLessonTime = String.valueOf(myNameChars);
 
@@ -162,10 +162,36 @@ public class addLessonToTimetable extends JFrame implements ActionListener {
                     teacherID = teachers.getInt("teacherID");
                 }
 
-                count = stmt.executeUpdate("INSERT INTO LESSON " +
-                 "VALUES (lesson_seq.NEXTVAL,"+myLessonTime+","+
-                 +timetableID+","+weekdayID+","+subjectID+","+teacherID+")");
+                /*
+                 public Lesson(String lessonTime, int timetableID, int weekdayID, int subjectID, int teacherID) {
+        this.lessonTime = lessonTime;
+        this.timetableID = timetableID;
+        this.weekdayID = weekdayID;
+        this.subjectID = subjectID;
+        this.teacherID = teacherID;
 
+        String sql = "INSERT INTO EXAM (EXAMID, \"date\", GROUPID, TEACHERID, SUBJECTID, EXAMTYPE) " +
+                        "VALUES (exam_seq.NEXTVAL,TO_DATE(?,'YYYY-MM-DD HH24:MI')," +
+                        "?,?,?,?)";
+                System.out.println(sql);
+                PreparedStatement prepStmt = con.prepareStatement(sql);
+                prepStmt.setString(1,dateFormString);
+                prepStmt.setInt(2,exam.getGroupID());
+                prepStmt.setInt(3,exam.getTeacherID());
+                prepStmt.setInt(4,exam.getSubjectID());
+                prepStmt.setString(5,exam.getType());
+                count = prepStmt.executeUpdate();
+    }
+                 */
+                Lesson lesson = new Lesson(myLessonTime,timetableID,weekdayID,subjectID,teacherID);
+                String sql = "INSERT INTO LESSON VALUES( lesson_seq.NEXTVAL,?,?,?,?,?)";
+                PreparedStatement prepStmt = con.prepareStatement(sql);
+                prepStmt.setString(1,lesson.getLessonTime());
+                prepStmt.setInt(2,lesson.getTimetableID());
+                prepStmt.setInt(3,lesson.getWeekdayID());
+                prepStmt.setInt(4,lesson.getSubjectID());
+                prepStmt.setInt(5,lesson.getTeacherID());
+                count = prepStmt.executeUpdate();
                 if(count>0)
                     System.out.println("records inserted succesfully");
                 else

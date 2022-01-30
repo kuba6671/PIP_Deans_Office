@@ -1,6 +1,7 @@
 CREATE TABLE exam (
     examid     INTEGER NOT NULL,
     "date"     DATE,
+    type       CHAR(30 CHAR),
     groupid    INTEGER NOT NULL,
     teacherid  INTEGER NOT NULL,
     subjectid  INTEGER NOT NULL
@@ -21,7 +22,7 @@ ALTER TABLE lesson ADD CONSTRAINT lesson_pk PRIMARY KEY ( lessonid );
 
 CREATE TABLE mark (
     markid       INTEGER NOT NULL,
-    value        NUMBER(2,1),
+    value        NUMBER(2, 1),
     indexnumber  INTEGER NOT NULL,
     teacherid    INTEGER NOT NULL,
     subjectid    INTEGER NOT NULL
@@ -164,6 +165,7 @@ ALTER TABLE student
 ALTER TABLE timetable
     ADD CONSTRAINT timetable_studentgroup_fk FOREIGN KEY ( groupid )
         REFERENCES studentgroup ( groupid );
+
 
 
 
