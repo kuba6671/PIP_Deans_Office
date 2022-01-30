@@ -1,10 +1,12 @@
+package Office_Deans_PIP;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.Statement;
 
-public class TeacherView extends MainWindow{
+public class TeacherView extends MainWindow {
     JButton button2 = new JButton();
     JButton button3 = new JButton();
     JButton button4 = new JButton();

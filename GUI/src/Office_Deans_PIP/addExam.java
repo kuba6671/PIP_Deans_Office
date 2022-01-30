@@ -113,7 +113,7 @@ public class addExam extends JFrame implements ActionListener {
                     if(!rs.next()){
                         count = stmt.executeUpdate("insert into subject values(subject_seq.NEXTVAL,'"+subject+"')");
                         if(count>0)
-                            System.out.println("records inserted succesfully");
+                            System.out.println("records subject inserted succesfully");
                         else
                             System.out.println("records insertion failed");
                         rs = stmt.executeQuery("select * from subject where name = '" + subject+"'");
@@ -155,16 +155,12 @@ public class addExam extends JFrame implements ActionListener {
                 prepStmt.setString(5,exam.getType());
                 count = prepStmt.executeUpdate();
                 if(count>0)
-                    System.out.println("records inserted succesfully");
+                    System.out.println("records exam inserted succesfully");
                 else
                     System.out.println("records insertion failed");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            if(count>0)
-                System.out.println("records inserted succesfully");
-            else
-                System.out.println("records insertion failed");
         }
     }
 }

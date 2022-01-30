@@ -203,6 +203,7 @@ public class examiningProposal extends JFrame implements ActionListener {
                 state.updateState(proposal);
             }
             proposal.update(con, stmt, Integer.parseInt(isSelectedID));
+            JOptionPane.showMessageDialog(null,"Decyzja zostala dodana do wniosku","Info",1);
         }
     }
 }

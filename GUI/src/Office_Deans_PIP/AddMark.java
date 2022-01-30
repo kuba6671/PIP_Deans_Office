@@ -1,17 +1,10 @@
+package Office_Deans_PIP;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.*;
-import java.util.Properties;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 
 public class AddMark extends JFrame{
@@ -226,8 +219,6 @@ public class AddMark extends JFrame{
                 count = stmt.executeUpdate("insert into mark values(mark_seq.NEXTVAL,'"+selectedMark+"','"+studentID+"','"+teacher+"','"+subjectID+ "')");
                 if(count>0)
                     System.out.println("records inserted succesfully");
-
-
             }
             else{
                 System.out.println(subjectID);

@@ -114,27 +114,5 @@ public class InsertToDatabaseTest {
         ProjectDefense tmpObjectProject = new ProjectDefense(date,9999,9999,9999);
         exam = tmpObjectProject.clone();
         System.out.println("Exam type= "+exam.getType()+ "      Class name= "+exam.getClass().getSimpleName());
-
-
-
-
-
-        /*
-                    Exam exam = null;
-            if(selectedType == "Egzamin"){
-                FinalTest tmpObject = new FinalTest(date,groupID,teacherID,subjectID);
-                exam = tmpObject.clone();
-            }
-            else if(selectedType == "Kolokwium"){
-                Colloquium tmpObject = new Colloquium(date,groupID,teacherID,subjectID);
-                exam = tmpObject.clone();
-            }
-            else if(selectedType == "Obrona projektu"){
-                ProjectDefense tmpObject = new ProjectDefense(date,groupID,teacherID,subjectID);
-                exam = tmpObject.clone();
-            }
-            exam.setType();
-         */
-        //FinalTest tmpObject = new FinalTest();
     }
 }

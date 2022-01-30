@@ -1,15 +1,10 @@
+package Office_Deans_PIP;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.Field;
 import java.sql.*;
-import java.util.Properties;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class StudentsList extends JFrame {
     private JPanel StudentPanel;

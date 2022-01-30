@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="AddMark">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Office_Deans_PIP.AddMark">
   <grid id="27dc6" binding="MarkPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="32" y="20" width="500" height="278"/>
