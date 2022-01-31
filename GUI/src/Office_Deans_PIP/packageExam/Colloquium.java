@@ -1,4 +1,4 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packageExam;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ public class Colloquium extends Exam {
     }
     @Override
     public Exam clone() {
-        Colloquium coll = new Colloquium(this.date, this.groupID, this.teacherID, this.subjectID);
+        Colloquium coll = new Colloquium(this.getDate(), this.getGroupID(), this.getTeacherID(), this.getSubjectID());
         return coll;
     }
     @Override

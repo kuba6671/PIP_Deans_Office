@@ -1,16 +1,15 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packageProposal;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 
 public class Proposal {
-    String proposalName, name, surname, subject, id;
-    String date;
-    int session, income;
-    Double avg;
-    String decision;
+    private String proposalName, name, surname, subject, id;
+    private String date;
+    private int session, income;
+    private Double avg;
+    private String decision;
 
     public Proposal(String proposalName, String name, String surname,
                     String fieldOfStudy, String id, String date, int session, int income) {
@@ -76,9 +75,10 @@ public class Proposal {
         return decision;
     }
 
-    public void setDecisionState(String decision) {
+    protected void setDecisionState(String decision) {
         this.decision = decision;
     }
+
     public void update(Connection con, Statement stmt, int proposalID){
         try {
             stmt.executeUpdate("UPDATE proposal SET decision='"+decision+"' WHERE proposalID="+proposalID);

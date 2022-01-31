@@ -1,13 +1,12 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packagePerson;
 
 public abstract class Person {
-protected
-    String name;
-    String surname;
-    int age;
-    String phoneNumber;
-    String mail;
-    String password;
+    private String name;
+    private String surname;
+    private int age;
+    private String phoneNumber;
+    private String mail;
+    private String password;
 
     public Person(String name, String surname, int age, String phoneNumber, String mail, String password) {
         setName(name);
@@ -25,6 +24,8 @@ protected
         setPhoneNumber(phoneNumber);
         setMail(mail);
     }
+
+
 
     public String getPassword() {
         return password;
@@ -54,7 +55,7 @@ protected
         this.name = name;
     }
 
-    public void setSurname(String surname) {
+     public void setSurname(String surname) {
         this.surname = surname;
     }
 

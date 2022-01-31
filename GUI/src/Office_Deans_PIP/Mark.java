@@ -1,15 +1,29 @@
 package Office_Deans_PIP;
 
 public class Mark {
-    int markID;
-    float value;
-    int indexNumber, teacherID, subjectID;
+    private String value;
+    private int indexNumber, teacherID, subjectID;
 
-    public Mark(int markID, float value, int indexNumber, int teacherID, int subjectID) {
-        this.markID = markID;
+    public Mark(String value, int indexNumber, int teacherID, int subjectID) {
         this.value = value;
         this.indexNumber = indexNumber;
         this.teacherID = teacherID;
         this.subjectID = subjectID;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public int getIndexNumber() {
+        return indexNumber;
+    }
+
+    public int getTeacherID() {
+        return teacherID;
+    }
+
+    public int getSubjectID() {
+        return subjectID;
     }
 }

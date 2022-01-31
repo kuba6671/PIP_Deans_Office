@@ -1,7 +1,9 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packagePerson;
+
+import Office_Deans_PIP.packagePerson.Person;
 
 public class Teacher extends Person {
-    int teacherID;
+    private int teacherID;
 
     public Teacher(String name, String surname, int age, String phoneNumber, String mail, int teacherID,String password) {
         super(name, surname, age, phoneNumber, mail,password);

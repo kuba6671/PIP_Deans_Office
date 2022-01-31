@@ -1,8 +1,8 @@
 package UnitTestsDeansOffice;
 
-import Office_Deans_PIP.OfficeEmployee;
-import Office_Deans_PIP.Student;
-import Office_Deans_PIP.Teacher;
+import Office_Deans_PIP.packagePerson.OfficeEmployee;
+import Office_Deans_PIP.packagePerson.Student;
+import Office_Deans_PIP.packagePerson.Teacher;
 
 public class CreateAndGetObjectTest {
     int testID, age, groupID;

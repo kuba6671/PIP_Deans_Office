@@ -1,14 +1,17 @@
 package Office_Deans_PIP;
 
+import Office_Deans_PIP.packageProposal.AcceptedProposalState;
+import Office_Deans_PIP.packageProposal.PendingProposalState;
+import Office_Deans_PIP.packageProposal.Proposal;
+import Office_Deans_PIP.packageProposal.RejectedProposalState;
+
 import javax.swing.*;
-import javax.xml.transform.Result;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.Vector;
 
 public class examiningProposal extends JFrame implements ActionListener {

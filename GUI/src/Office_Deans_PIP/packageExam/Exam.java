@@ -1,12 +1,11 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packageExam;
 
 import java.time.LocalDateTime;
 
 public abstract class Exam implements Cloneable {
-    int examID;
-    LocalDateTime date;
-    int groupID, teacherID, subjectID;
-    String type;
+    private LocalDateTime date;
+    private int groupID, teacherID, subjectID;
+    protected String type;
 
     public Exam(LocalDateTime date, int groupID, int teacherID, int subjectID) {
         this.date = date;
@@ -17,9 +16,6 @@ public abstract class Exam implements Cloneable {
 
     public abstract Exam clone();
 
-    public int getExamID() {
-        return examID;
-    }
 
     public LocalDateTime getDate() {
         return date;

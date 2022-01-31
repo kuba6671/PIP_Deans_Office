@@ -1,7 +1,8 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packagePerson;
+
 
 public class OfficeEmployee extends Person {
-    int OfficeEmployeeID;
+    private int OfficeEmployeeID;
 
     public OfficeEmployee(String name, String surname, int age, String phoneNumber, String mail, int OfficeEmployeeID,String password) {
         super(name, surname, age, phoneNumber, mail, password);

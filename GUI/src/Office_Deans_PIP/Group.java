@@ -1,8 +1,8 @@
 package Office_Deans_PIP;
 
 public class Group {
-    int GroupID;
-    String name;
+    private int GroupID;
+    private String name;
 
     public Group(int groupID, String name) {
         GroupID = groupID;

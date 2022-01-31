@@ -186,7 +186,7 @@ public class AddMark extends JFrame{
     private void subjectCombo(String group, Connection con, Statement stmt){
         SubjectChoose.removeAllItems();
         try {
-            ResultSet rs = stmt.executeQuery("select subject.name, subject.subjectid as subid from subject" +
+            ResultSet rs = stmt.executeQuery("select DISTINCT subject.name from subject" +
                     " join exam on subject.subjectid = exam.subjectid" +
                     " join studentgroup on exam.groupid = studentgroup.groupid" +
                     " WHERE studentgroup.name = '" + group + "'");
@@ -216,15 +216,17 @@ public class AddMark extends JFrame{
                     " where mark.indexnumber = '" + studentID +
                     "' and subject.subjectid = '" + subjectID + "'");
             if(!rs.next()){
-                count = stmt.executeUpdate("insert into mark values(mark_seq.NEXTVAL,'"+selectedMark+"','"+studentID+"','"+teacher+"','"+subjectID+ "')");
+                Mark mark = new Mark(selectedMark,studentID,Integer.parseInt(teacher),subjectID);
+                count = stmt.executeUpdate("insert into mark values(mark_seq.NEXTVAL,'"+mark.getValue()+"','"
+                        +mark.getIndexNumber()+"','"+mark.getTeacherID()+"','"+mark.getSubjectID()+ "')");
                 if(count>0)
                     System.out.println("records inserted succesfully");
             }
             else{
-                System.out.println(subjectID);
-                update = stmt.executeUpdate("update mark set value = '"+ selectedMark +
-                        "' WHERE indexnumber = '"+ studentID +
-                        "' AND subjectid = '"+ subjectID + "'");
+                Mark mark = new Mark(selectedMark,studentID,Integer.parseInt(teacher),subjectID);
+                update = stmt.executeUpdate("update mark set value = '"+ mark.getValue() +
+                        "' WHERE indexnumber = '"+ mark.getIndexNumber() +
+                        "' AND subjectid = '"+ mark.getSubjectID() + "'");
                 if(update>0)
                     System.out.println("records updated succesfully");
             }

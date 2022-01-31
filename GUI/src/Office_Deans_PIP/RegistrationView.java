@@ -1,5 +1,7 @@
 package Office_Deans_PIP;
 
+import Office_Deans_PIP.packagePerson.Student;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,7 +99,7 @@ public class RegistrationView extends GUI {
 
             count = stmt.executeUpdate("insert into Student values("+student.getIndexNumber()+",'"+student.getPassword()+"','"
                     +student.getName()+"','" +student.getSurname()+ "',"+student.getAge()+",'"
-                    +student.getPhoneNumber()+"','" +student.getMail()+"','"+student.fieldOfStudy+"',"+group1.getGroupID()+")");
+                    +student.getPhoneNumber()+"','" +student.getMail()+"','"+student.getFieldOfStudy()+"',"+group1.getGroupID()+")");
             if(count>0)
                 System.out.println("records inserted succesfully");
             else

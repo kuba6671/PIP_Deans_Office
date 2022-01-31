@@ -1,20 +1,18 @@
 package Office_Deans_PIP;
 
+import Office_Deans_PIP.packageExam.Colloquium;
+import Office_Deans_PIP.packageExam.Exam;
+import Office_Deans_PIP.packageExam.FinalTest;
+import Office_Deans_PIP.packageExam.ProjectDefense;
 import com.github.lgooddatepicker.components.DatePicker;
-import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.TimePicker;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class addExam extends JFrame implements ActionListener {

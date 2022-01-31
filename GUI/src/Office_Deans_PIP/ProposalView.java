@@ -1,9 +1,9 @@
 package Office_Deans_PIP;
 
+import Office_Deans_PIP.packageProposal.Proposal;
 import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Locale;
 
 public class ProposalView extends JFrame implements ActionListener {
@@ -113,9 +112,9 @@ public class ProposalView extends JFrame implements ActionListener {
 
                 try {
                     count = stmt.executeUpdate("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
-                                    ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+SocialGrantForm.proposalName+
-                                    "',TO_DATE('"+dateFormString+"','YYYY-MM-DD'),'"+SocialGrantForm.session+
-                                    "',"+SocialGrantForm.income+","+SocialGrantForm.id+")");
+                                    ", INCOME, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+SocialGrantForm.getProposalName()+
+                                    "',TO_DATE('"+dateFormString+"','YYYY-MM-DD'),'"+SocialGrantForm.getSession()+
+                                    "',"+SocialGrantForm.getIncome()+","+SocialGrantForm.getId()+")");
                     if(count>0)
                         System.out.println("records inserted succesfully");
                     else
@@ -136,9 +135,9 @@ public class ProposalView extends JFrame implements ActionListener {
 
                 try {
                     count = stmt.executeUpdate("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME, \"date\", \"session\"" +
-                            ", AVG, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+FellowShipForm.proposalName+
-                            "','"+FellowShipForm.date+"','"+FellowShipForm.session+
-                            "',"+FellowShipForm.avg+","+FellowShipForm.id+")");
+                            ", AVG, INDEXNUMBER) VALUES " + "(proposal_seq.NEXTVAL,'"+FellowShipForm.getProposalName()+
+                            "','"+FellowShipForm.getDate()+"','"+FellowShipForm.getSession()+
+                            "',"+FellowShipForm.getAvg()+","+FellowShipForm.getId()+")");
                     if(count>0)
                         System.out.println("records inserted succesfully");
                     else

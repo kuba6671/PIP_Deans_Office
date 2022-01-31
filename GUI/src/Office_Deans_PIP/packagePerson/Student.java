@@ -1,8 +1,10 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packagePerson;
+
+import Office_Deans_PIP.packagePerson.Person;
 
 public class Student extends Person {
-    int indexNumber, groupID;
-    String fieldOfStudy;
+    private int indexNumber, groupID;
+    private String fieldOfStudy;
     public Student(int indexNumber,String password,String name, String surname, int age,
                    String phoneNumber, String mail,int groupID, String fieldOfStudy) {
         super(name, surname, age, phoneNumber, mail, password);

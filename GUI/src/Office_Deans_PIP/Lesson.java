@@ -1,8 +1,8 @@
 package Office_Deans_PIP;
 
 public class Lesson {
-    String lessonTime;
-    int timetableID, weekdayID,subjectID, teacherID;
+    private String lessonTime;
+    private int timetableID, weekdayID,subjectID, teacherID;
 
     public Lesson(String lessonTime, int timetableID, int weekdayID, int subjectID, int teacherID) {
         this.lessonTime = lessonTime;

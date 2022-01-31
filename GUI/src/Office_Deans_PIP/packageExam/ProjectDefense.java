@@ -1,4 +1,4 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packageExam;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ public class ProjectDefense extends Exam {
     }
     @Override
     public Exam clone() {
-        ProjectDefense project = new ProjectDefense(this.date, this.groupID, this.teacherID, this.subjectID);
+        ProjectDefense project = new ProjectDefense(this.getDate(), this.getGroupID(), this.getTeacherID(), this.getSubjectID());
         return project;
     }
     @Override

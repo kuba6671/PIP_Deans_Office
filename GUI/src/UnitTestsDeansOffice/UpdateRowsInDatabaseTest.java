@@ -1,9 +1,9 @@
 package UnitTestsDeansOffice;
 
-import Office_Deans_PIP.AcceptedProposalState;
-import Office_Deans_PIP.PendingProposalState;
-import Office_Deans_PIP.Proposal;
-import Office_Deans_PIP.RejectedProposalState;
+import Office_Deans_PIP.packageProposal.AcceptedProposalState;
+import Office_Deans_PIP.packageProposal.PendingProposalState;
+import Office_Deans_PIP.packageProposal.Proposal;
+import Office_Deans_PIP.packageProposal.RejectedProposalState;
 
 import java.sql.*;
 

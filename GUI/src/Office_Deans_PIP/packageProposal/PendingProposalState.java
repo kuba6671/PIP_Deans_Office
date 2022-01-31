@@ -1,4 +1,5 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packageProposal;
+
 
 public class PendingProposalState implements ProposalState {
     @Override

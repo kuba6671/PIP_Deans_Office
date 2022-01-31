@@ -1,7 +1,5 @@
-package Office_Deans_PIP;
+package Office_Deans_PIP.packageProposal;
 
-import java.sql.Connection;
-import java.sql.Statement;
 
 public class AcceptedProposalState implements ProposalState {
     @Override

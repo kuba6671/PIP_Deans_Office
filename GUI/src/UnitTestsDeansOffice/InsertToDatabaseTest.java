@@ -1,20 +1,16 @@
 package UnitTestsDeansOffice;
 
-import Office_Deans_PIP.Colloquium;
-import Office_Deans_PIP.Exam;
-import Office_Deans_PIP.FinalTest;
-import Office_Deans_PIP.ProjectDefense;
+import Office_Deans_PIP.packageExam.Colloquium;
+import Office_Deans_PIP.packageExam.Exam;
+import Office_Deans_PIP.packageExam.FinalTest;
+import Office_Deans_PIP.packageExam.ProjectDefense;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 
 public class InsertToDatabaseTest {
