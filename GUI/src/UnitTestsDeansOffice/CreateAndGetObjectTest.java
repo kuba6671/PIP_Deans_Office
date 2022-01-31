@@ -5,11 +5,11 @@ import Office_Deans_PIP.packagePerson.Student;
 import Office_Deans_PIP.packagePerson.Teacher;
 
 public class CreateAndGetObjectTest {
-    int testID, age, groupID;
-    String password, name,  surname, phoneNumber, mail, fieldOfStudy;
-    Student testStudent;
-    Teacher testTeacher;
-    OfficeEmployee testOffice;
+    private int testID, age, groupID;
+    private String password, name,  surname, phoneNumber, mail, fieldOfStudy;
+    private Student testStudent;
+    private Teacher testTeacher;
+    private OfficeEmployee testOffice;
     CreateAndGetObjectTest(){
         testID = 9999;
         groupID = 8888;
@@ -19,6 +19,7 @@ public class CreateAndGetObjectTest {
         phoneNumber = "123456789";
         mail = "asd@gmail.com";
         fieldOfStudy = "TestFos";
+        age = 20;
     }
     void createStudent(){
         testStudent = new Student(testID,password,name,surname,age,phoneNumber,mail,groupID,fieldOfStudy);
@@ -56,6 +57,11 @@ public class CreateAndGetObjectTest {
                     throw new IllegalArgumentException("getStudent");
                 }
             }
+    }
+    Student getStudentObject(){
+        if(testStudent == null)
+           createStudent();
+        return testStudent;
     }
     void createTeacher(){
         testTeacher = new Teacher(name,surname,age,phoneNumber,mail,testID,password);

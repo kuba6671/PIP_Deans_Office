@@ -1,5 +1,7 @@
 package UnitTestsDeansOffice;
 
+import Office_Deans_PIP.packagePerson.Student;
+
 public class UnitTests {
     public static void main(String[] args) {
         try {
@@ -7,12 +9,18 @@ public class UnitTests {
             InsertToDatabaseTest insertTest = new InsertToDatabaseTest();
             DeleteFromDatabaseTest deleteTest = new DeleteFromDatabaseTest();
             UpdateRowsInDatabaseTest updateTest = new UpdateRowsInDatabaseTest();
+            ObjectTest objectTest = new ObjectTest();
             createTest.createStudent();
             createTest.getStudent();
             createTest.createTeacher();
             createTest.getTeacher();
             createTest.createOffice();
             createTest.getOffice();
+            objectTest.studentTesting();
+            objectTest.shouldThrownRuntimeExceptionWhenNameIsNull();
+            objectTest.shouldThrownRuntimeExceptionWhenSurnameIsNull();
+            objectTest.shouldThrownRuntimeExceptionWhenAgeIsOutOfRange();
+            objectTest.shouldThrownRuntimeExceptionWhenPhoneNumberIsInvalid();
             insertTest.insertGroup();
             insertTest.insertStudent();
             insertTest.insertTeacher();
