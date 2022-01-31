@@ -66,14 +66,17 @@ public class UpdateRowsInDatabaseTest {
                        socialProposals.getInt("income"));
            }
             pendingState.updateState(SocialGrantForm);
-            System.out.println("Proposal name: "+SocialGrantForm.getProposalName()+"\n"+
-                    "State of the proposal after the update: "+SocialGrantForm.getDecision());
+           if(SocialGrantForm.getDecision() != "Oczekujace"){
+               throw new Exception("State error");
+           }
             rejectedState.updateState(SocialGrantForm);
-            System.out.println("Proposal name: "+SocialGrantForm.getProposalName()+"\n"+
-                    "State of the proposal after the update: "+SocialGrantForm.getDecision());
+            if(SocialGrantForm.getDecision() != "Odrzucone"){
+                throw new Exception("State error");
+            }
             acceptedState.updateState(SocialGrantForm);
-            System.out.println("Proposal name: "+SocialGrantForm.getProposalName()+"\n"+
-                    "State of the proposal after the update: "+SocialGrantForm.getDecision()+"\n");
+            if(SocialGrantForm.getDecision() != "Przyjete"){
+                throw new Exception("State error");
+            }
 
             sql = "SELECT * from proposal " +
                     "JOIN student ON student.indexNumber= proposal.indexNumber " +
@@ -92,19 +95,24 @@ public class UpdateRowsInDatabaseTest {
                         fellowshipProposals.getDouble("avg"));
             }
             pendingState.updateState(FellowShipForm);
-            System.out.println("Proposal name: "+FellowShipForm.getProposalName()+"\n"+
-                    "State of the proposal after the update: "+FellowShipForm.getDecision());
+            if(FellowShipForm.getDecision() != "Oczekujace"){
+                throw new Exception("State error");
+            }
             rejectedState.updateState(FellowShipForm);
-            System.out.println("Proposal name: "+FellowShipForm.getProposalName()+"\n"+
-                    "State of the proposal after the update: "+FellowShipForm.getDecision());
+            if(FellowShipForm.getDecision() != "Odrzucone"){
+                throw new Exception("State error");
+            }
             acceptedState.updateState(FellowShipForm);
-            System.out.println("Proposal name: "+FellowShipForm.getProposalName()+"\n"+
-                    "State of the proposal after the update: "+FellowShipForm.getDecision());
+            if(FellowShipForm.getDecision() != "Przyjete"){
+                throw new Exception("State error");
+            }
 
             deleteTest.deleteSocialGrantForm();
             deleteTest.deleteFellowShipForm();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

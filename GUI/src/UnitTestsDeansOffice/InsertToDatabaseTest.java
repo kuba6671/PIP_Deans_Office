@@ -26,7 +26,8 @@ public class InsertToDatabaseTest {
             e.printStackTrace();
         }
     }
-    void insertGroup(){
+
+    void insertGroup() {
         try {
             stmt.executeQuery("INSERT INTO STUDENTGROUP VALUES('9999','TestName')");
         } catch (SQLException throwables) {
@@ -35,7 +36,7 @@ public class InsertToDatabaseTest {
 
     }
 
-    void insertStudent(){
+    void insertStudent() {
         try {
             stmt.executeQuery("INSERT INTO STUDENT " +
                     "VALUES ('9999', 'testPass', 'TestName', 'TestSurname'," +
@@ -45,7 +46,7 @@ public class InsertToDatabaseTest {
         }
     }
 
-    void insertSocialGrantFormProposal(){
+    void insertSocialGrantFormProposal() {
         try {
             stmt.executeQuery("INSERT INTO PROPOSAL (PROPOSALID, PROPOSALNAME," +
                     " \"date\", \"session\", INCOME, INDEXNUMBER) VALUES( " +
@@ -56,7 +57,7 @@ public class InsertToDatabaseTest {
         }
     }
 
-    void insertFellowShipFormProposal(){
+    void insertFellowShipFormProposal() {
         try {
             stmt.executeQuery("INSERT INTO PROPOSAL(PROPOSALID, PROPOSALNAME," +
                     " \"date\", \"session\", AVG, INDEXNUMBER) VALUES( " +
@@ -67,7 +68,7 @@ public class InsertToDatabaseTest {
         }
     }
 
-    void insertTeacher(){
+    void insertTeacher() {
         try {
             stmt.executeQuery("INSERT INTO TEACHER " +
                     "VALUES ('9999', 'testPass', 'TestName', 'TestSurname'," +
@@ -77,7 +78,7 @@ public class InsertToDatabaseTest {
         }
     }
 
-    void insertSubject(){
+    void insertSubject() {
         try {
             stmt.executeQuery("INSERT INTO SUBJECT " +
                     "VALUES ('9999','TestName')");
@@ -86,7 +87,7 @@ public class InsertToDatabaseTest {
         }
     }
 
-    void insertExam(){
+    void insertExam() {
         DeleteFromDatabaseTest deleteTest = new DeleteFromDatabaseTest();
         InsertToDatabaseTest insertTest = new InsertToDatabaseTest();
         deleteTest.deleteStudent();
@@ -101,14 +102,24 @@ public class InsertToDatabaseTest {
         Exam exam = null;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime date = LocalDateTime.parse("2022-01-30 10:00", formatter);
-        FinalTest tmpObject = new FinalTest(date,9999,9999,9999);
+        FinalTest tmpObject = new FinalTest(date, 9999, 9999, 9999);
         exam = tmpObject.clone();
-        System.out.println("\nExam type= "+exam.getType()+ "    Class name= "+exam.getClass().getSimpleName());
-        Colloquium tmpObjectColloquium = new Colloquium(date,9999,9999,9999);
-        exam = tmpObjectColloquium.clone();
-        System.out.println("Exam type= "+exam.getType()+ "      Class name= "+exam.getClass().getSimpleName());
-        ProjectDefense tmpObjectProject = new ProjectDefense(date,9999,9999,9999);
-        exam = tmpObjectProject.clone();
-        System.out.println("Exam type= "+exam.getType()+ "      Class name= "+exam.getClass().getSimpleName());
+        try {
+            if (exam.getType() != "Egzamin") {
+                throw new Exception("exam type error");
+            }
+            Colloquium tmpObjectColloquium = new Colloquium(date, 9999, 9999, 9999);
+            exam = tmpObjectColloquium.clone();
+            if (exam.getType() != "Kolokwium") {
+                throw new Exception("exam type error");
+            }
+            ProjectDefense tmpObjectProject = new ProjectDefense(date, 9999, 9999, 9999);
+            exam = tmpObjectProject.clone();
+            if (exam.getType() != "Obrona projektu") {
+                throw new Exception("exam type error");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
