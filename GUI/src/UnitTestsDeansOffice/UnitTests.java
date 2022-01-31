@@ -21,6 +21,7 @@ public class UnitTests {
             objectTest.shouldThrownRuntimeExceptionWhenSurnameIsNull();
             objectTest.shouldThrownRuntimeExceptionWhenAgeIsOutOfRange();
             objectTest.shouldThrownRuntimeExceptionWhenPhoneNumberIsInvalid();
+            objectTest.shouldThrownRuntimeExceptionWhenPasswordIsTooShort();
             insertTest.insertGroup();
             insertTest.insertStudent();
             insertTest.insertTeacher();
